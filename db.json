@@ -1,0 +1,67 @@
+{
+  "profile": {
+    "id": 1,
+    "name": "James Kirk",
+    "title": "Software Engineer",
+    "email": "james.kirk@example.com",
+    "phone": "+1 (555) 123-4567",
+    "location": "San Francisco, CA",
+    "summary": "Experienced software engineer with a passion for building scalable web applications."
+  },
+  "experience": [
+    {
+      "id": 1,
+      "company": "Tech Corp",
+      "position": "Senior Software Engineer",
+      "startDate": "2020-01",
+      "endDate": null,
+      "current": true,
+      "description": "Leading development of cloud-based enterprise applications using React and Node.js."
+    },
+    {
+      "id": 2,
+      "company": "StartupXYZ",
+      "position": "Full Stack Developer",
+      "startDate": "2018-06",
+      "endDate": "2019-12",
+      "current": false,
+      "description": "Developed and maintained full-stack web applications using modern JavaScript frameworks."
+    }
+  ],
+  "education": [
+    {
+      "id": 1,
+      "institution": "University of California",
+      "degree": "Bachelor of Science in Computer Science",
+      "startDate": "2014-09",
+      "endDate": "2018-05",
+      "gpa": "3.8"
+    }
+  ],
+  "skills": [
+    {
+      "id": 1,
+      "name": "JavaScript",
+      "category": "Programming Languages",
+      "level": "Expert"
+    },
+    {
+      "id": 2,
+      "name": "TypeScript",
+      "category": "Programming Languages",
+      "level": "Expert"
+    },
+    {
+      "id": 3,
+      "name": "React",
+      "category": "Frameworks",
+      "level": "Expert"
+    },
+    {
+      "id": 4,
+      "name": "Node.js",
+      "category": "Runtime",
+      "level": "Advanced"
+    }
+  ]
+}
