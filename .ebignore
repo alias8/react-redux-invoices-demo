@@ -1,0 +1,24 @@
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
+
+# Development files
+.git
+.gitignore
+node_modules
+src
+public
+.vscode
+.idea
+
+# Build artifacts (keep dist/)
+*.log
+npm-debug.log*
+.DS_Store
+
+# Development dependencies - these will be in devDependencies
+tsconfig.json
+tsconfig.node.json
+vite.config.ts
+.eslintrc*

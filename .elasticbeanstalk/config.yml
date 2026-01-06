@@ -1,0 +1,8 @@
+branch-defaults:
+  main:
+    environment: react-redux-invoices-env
+global:
+  application_name: react-redux-invoices
+  default_platform: Node.js 18
+  default_region: us-east-1
+  sc: git
