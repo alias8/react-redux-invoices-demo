@@ -6,8 +6,8 @@ branch-defaults:
     group_suffix: null
 environment-defaults:
   react-redux-invoices-env:
-    branch: master
-    repository: react-redux-invoices
+    branch: null
+    repository: null
 global:
   application_name: react-redux-invoices
   branch: master
@@ -19,6 +19,6 @@ global:
   platform_name: null
   platform_version: null
   profile: null
-  repository: react-redux-invoices
-  sc: git
+  repository: null
+  sc: null
   workspace_type: Application
