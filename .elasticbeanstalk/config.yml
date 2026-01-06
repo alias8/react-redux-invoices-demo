@@ -1,8 +1,20 @@
 branch-defaults:
   main:
     environment: react-redux-invoices-env
+  master:
+    environment: null
+    group_suffix: null
 global:
   application_name: react-redux-invoices
-  default_platform: Node.js 18
+  branch: master
+  default_ec2_keyname: aws-eb
+  default_platform: Node.js 20
   default_region: us-east-1
+  include_git_submodules: true
+  instance_profile: null
+  platform_name: null
+  platform_version: null
+  profile: null
+  repository: react-redux-invoices
   sc: git
+  workspace_type: Application
