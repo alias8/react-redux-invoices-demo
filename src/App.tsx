@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import {IAccount} from "../server.ts";
+import {IAccount} from "../serverData.ts";
 
 function App() {
   const [accounts, setProfile] = useState<IAccount[] | null>(null);
@@ -19,9 +19,9 @@ function App() {
           throw new Error('Failed to fetch data');
         }
 
-        const profileData = await accountsRes.json();
+        const accountsData = await accountsRes.json();
 
-        setProfile(profileData);
+        setProfile(accountsData);
         setError(null);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'An error occurred');
