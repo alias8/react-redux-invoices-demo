@@ -3,6 +3,7 @@ import './App.css'
 import LoginPage from './pages/LoginPage'
 import Dashboard from './pages/Dashboard.tsx'
 import Customers from './pages/Customers.tsx'
+import CustomerDetails from './pages/CustomerDetails.tsx'
 import Accounts from './pages/Accounts.tsx'
 import ProtectedRoute from './components/ProtectedRoute'
 
@@ -27,6 +28,12 @@ function App() {
         <Route path="/customers" element={
           <ProtectedRoute>
             <Customers />
+          </ProtectedRoute>
+        } />
+
+        <Route path="/customer-details/:id" element={
+          <ProtectedRoute>
+            <CustomerDetails />
           </ProtectedRoute>
         } />
       </Routes>

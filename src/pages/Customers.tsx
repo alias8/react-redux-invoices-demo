@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { setCustomers, setLoading, setError } from '../store/customersSlice';
 import { setAccounts } from '../store/accountsSlice';
@@ -154,7 +155,15 @@ function Customers() {
                         }}
                       />
                     ) : (
-                      customer.name
+                      <Link
+                        to={`/customer-details/${customer.id}`}
+                        style={{
+                          color: '#646cff',
+                          textDecoration: 'none'
+                        }}
+                      >
+                        {customer.name}
+                      </Link>
                     )}
                   </td>
                   <td style={{ padding: '12px' }}>
