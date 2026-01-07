@@ -1,11 +1,12 @@
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../store/hooks';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { logout } from '../store/authSlice';
 
 function Navigation() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const username = useAppSelector((state) => state.auth.username);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -56,20 +57,31 @@ function Navigation() {
           Customers
         </Link>
       </div>
-      <button
-        onClick={handleLogout}
-        style={{
-          padding: '8px 16px',
-          fontSize: '14px',
-          backgroundColor: '#dc3545',
-          color: 'white',
-          border: 'none',
-          borderRadius: '4px',
-          cursor: 'pointer'
-        }}
-      >
-        Logout
-      </button>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+        {username && (
+          <span style={{
+            color: '#646cff',
+            fontSize: '16px',
+            fontWeight: '500'
+          }}>
+            Logged in as: {username}
+          </span>
+        )}
+        <button
+          onClick={handleLogout}
+          style={{
+            padding: '8px 16px',
+            fontSize: '14px',
+            backgroundColor: '#dc3545',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer'
+          }}
+        >
+          Logout
+        </button>
+      </div>
     </nav>
   );
 }
