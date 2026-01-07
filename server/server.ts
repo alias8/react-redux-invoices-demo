@@ -13,6 +13,20 @@ const PORT = process.env.PORT || 8080;
 
 
 // API routes
+app.get('/api/users', (req: Request, res: Response) => {
+    const { username, password } = req.query;
+    const users = dbData.users || [];
+    const user = users.find(
+        (u) => u.username === username && u.password === password
+    );
+
+    if (user) {
+        res.json([user]);
+    } else {
+        res.json([]);
+    }
+});
+
 app.get('/api/accounts', (_req: Request, res: Response) => {
     res.json(dbData.accounts || {});
 });

@@ -1,32 +1,60 @@
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { setEmail, setPassword, login } from '../store/authSlice';
+import { setUsername, setPassword, login } from '../store/authSlice';
+import { useState } from 'react';
 
 function LoginPage() {
   const dispatch = useAppDispatch();
-  const email = useAppSelector((state) => state.auth.email);
+  const username = useAppSelector((state) => state.auth.username);
   const password = useAppSelector((state) => state.auth.password);
   const navigate = useNavigate();
+  const [error, setError] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(login());
-    navigate('/home');
+    setError('');
+
+    try {
+      const response = await fetch(`/api/users?username=${username}&password=${password}`);
+      const users = await response.json();
+
+      if (users.length > 0) {
+        const user = users[0];
+        dispatch(login({ id: user.id, username: user.username }));
+        navigate('/home');
+      } else {
+        setError('Invalid username or password');
+      }
+    } catch (err) {
+      setError('An error occurred during login');
+      console.error('Login error:', err);
+    }
   };
 
   return (
     <div style={{ maxWidth: '400px', margin: '50px auto', padding: '20px' }}>
       <h1>Login</h1>
+      {error && (
+        <div style={{
+          padding: '10px',
+          marginBottom: '15px',
+          backgroundColor: '#ffebee',
+          color: '#c62828',
+          borderRadius: '4px'
+        }}>
+          {error}
+        </div>
+      )}
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="email" style={{ display: 'block', marginBottom: '5px' }}>
-            Email:
+          <label htmlFor="username" style={{ display: 'block', marginBottom: '5px' }}>
+            Username:
           </label>
           <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => dispatch(setEmail(e.target.value))}
+            id="username"
+            type="text"
+            value={username}
+            onChange={(e) => dispatch(setUsername(e.target.value))}
             required
             style={{ width: '100%', padding: '8px', fontSize: '16px' }}
           />
