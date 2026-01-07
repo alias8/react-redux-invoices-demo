@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import './App.css'
-import {IAccount} from "../serverData.ts";
+import {IAccount} from "../server/serverData.js";
 
 function App() {
   const [accounts, setProfile] = useState<IAccount[] | null>(null);

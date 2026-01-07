@@ -18,11 +18,11 @@ app.get('/api/accounts', (_req: Request, res: Response) => {
 });
 
 // Serve static files from the dist directory
-app.use(express.static(path.join(__dirname, '..', 'dist')));
+app.use(express.static(path.join(__dirname, '..', '..', 'dist')));
 
 // Handle React routing, return all requests to the app (but only for non-API routes)
 app.get('*', (_req: Request, res: Response) => {
-    res.sendFile(path.join(__dirname, '..', 'dist', 'index.html'));
+    res.sendFile(path.join(__dirname, '..', '..', 'dist', 'index.html'));
 });
 
 app.listen(PORT, () => {

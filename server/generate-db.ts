@@ -1,46 +1,12 @@
+import { writeFileSync } from 'fs';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
 import {v4 as uuid} from "uuid";
 import _ from "lodash";
+import type { IData, IAccount, ICustomer, IInvoice, IUser } from './types.js';
 
-export type ICustomerID = string;
-export type IInvoiceID = string;
-export type IAccountID = string;
-export type IUserID = string;
-
-export interface IAccount {
-    id: IAccountID;
-    name: string;
-    description: string;
-    customerIDs: ICustomerID[];
-    ownedBy: IUserID;
-    revenue?: number; // aggregated revenue across all customers in the account
-}
-
-export interface ICustomer {
-    id: ICustomerID;
-    name: string;
-    createdDate: Date;
-    invoiceIDs: IInvoiceID[];
-}
-
-export interface IInvoice {
-    id: IInvoiceID;
-    description: string;
-    purchasedDate: Date;
-    purchasedPrice: number;
-}
-
-export interface IUser {
-    id: IUserID;
-    username: string;
-    password: string;
-}
-
-export interface IData {
-    users: IUser[];
-    accounts: IAccount[];
-    customers: ICustomer[];
-    invoices: IInvoice[];
-}
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const generateMockData = () => {
     const numberOfAccounts = 5;
@@ -110,4 +76,14 @@ const generateMockData = () => {
     return data;
 }
 
-export const dbData: IData = generateMockData();
+const dbData = generateMockData();
+
+// Write the data to db.json
+const outputPath = join(__dirname, 'db.json');
+writeFileSync(outputPath, JSON.stringify(dbData, null, 2), 'utf-8');
+
+console.log('✓ Generated db.json with:');
+console.log(`  - ${dbData.users.length} users`);
+console.log(`  - ${dbData.accounts.length} accounts`);
+console.log(`  - ${dbData.customers.length} customers`);
+console.log(`  - ${dbData.invoices.length} invoices`);

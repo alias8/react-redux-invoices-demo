@@ -5,15 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "dev:server": "tsx server.ts",
+    "dev:server": "tsx server/server.ts",
     "build": "tsc && vite build && npm run build:server",
-    "build:server": "tsc -p tsconfig.server.json",
-    "start": "node dist-server/server.js",
+    "build:server": "tsc -p tsconfig.server.json && cp server/db.json dist-server/server/db.json",
+    "start": "node dist-server/server/server.js",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
     "deploy": "npm run build && eb deploy",
     "dev:all": "npm run dev:server & npm run dev",
-    "generate-db": "tsx generate-db.ts"
+    "generate-db": "tsx server/generate-db.ts"
   },
   "dependencies": {
     "express": "^4.22.1",
