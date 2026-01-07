@@ -10,7 +10,8 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 8080;
 
-
+// Middleware to parse JSON bodies
+app.use(express.json());
 
 // API routes
 app.get('/api/users', (req: Request, res: Response) => {
@@ -29,6 +30,39 @@ app.get('/api/users', (req: Request, res: Response) => {
 
 app.get('/api/accounts', (_req: Request, res: Response) => {
     res.json(dbData.accounts || {});
+});
+
+app.get('/api/customers', (_req: Request, res: Response) => {
+    res.json(dbData.customers || []);
+});
+
+app.put('/api/customers/:id', (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { name } = req.body;
+
+    const customer = dbData.customers.find(c => c.id === id);
+
+    if (!customer) {
+        res.status(404).json({ error: 'Customer not found' });
+        return;
+    }
+
+    customer.name = name;
+    res.json(customer);
+});
+
+app.delete('/api/customers/:id', (req: Request, res: Response) => {
+    const { id } = req.params;
+
+    const customerIndex = dbData.customers.findIndex(c => c.id === id);
+
+    if (customerIndex === -1) {
+        res.status(404).json({ error: 'Customer not found' });
+        return;
+    }
+
+    dbData.customers.splice(customerIndex, 1);
+    res.json({ success: true });
 });
 
 // Serve static files from the dist directory
