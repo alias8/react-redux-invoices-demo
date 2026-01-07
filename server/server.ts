@@ -1,4 +1,4 @@
-import express, {Request, Response} from 'express';
+import express, {Request, Response, NextFunction} from 'express';
 import path from 'path';
 import {fileURLToPath} from 'url';
 import {dbData} from "./serverData.js";
@@ -14,10 +14,10 @@ const PORT = process.env.PORT || 8080;
 app.use(express.json());
 
 // Middleware to add realistic random delay to API requests
-app.use('/api', (req: Request, res: Response, next) => {
+app.use('/api', (_req: Request, _res: Response, next: NextFunction) => {
     // Random delay between 100ms and 800ms
     const delay = Math.floor(Math.random() * 700) + 100;
-    setTimeout(next, delay);
+    setTimeout(() => next(), delay);
 });
 
 // API routes
