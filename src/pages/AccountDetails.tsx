@@ -81,8 +81,6 @@ function AccountDetails() {
           <h2 style={{ marginTop: 0, marginBottom: '20px' }}>{account.name}</h2>
 
           <div style={{ display: 'grid', gridTemplateColumns: '150px 1fr', gap: '12px' }}>
-            <div style={{ fontWeight: 'bold' }}>Account ID:</div>
-            <div>{account.id}</div>
 
             <div style={{ fontWeight: 'bold' }}>Description:</div>
             <div>{account.description}</div>

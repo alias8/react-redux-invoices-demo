@@ -51,6 +51,9 @@ function CustomerDetails() {
     ? invoices.filter(invoice => customer.invoiceIDs.includes(invoice.id))
     : [];
 
+  // Calculate total of all invoices
+  const invoicesTotal = customerInvoices.reduce((sum, invoice) => sum + invoice.purchasedPrice, 0);
+
   if (loading || invoicesLoading) {
     return <div style={{ padding: '20px', textAlign: 'center' }}>Loading...</div>;
   }
@@ -86,6 +89,9 @@ function CustomerDetails() {
 
             <div style={{ fontWeight: 'bold' }}>Created Date:</div>
             <div>{new Date(customer.createdDate).toLocaleDateString()}</div>
+
+            <div style={{ fontWeight: 'bold' }}>Total Spent:</div>
+            <div>${invoicesTotal.toFixed(2)}</div>
           </div>
         </div>
       </div>
