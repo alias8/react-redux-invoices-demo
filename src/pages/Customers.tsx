@@ -129,6 +129,7 @@ function Customers() {
               <tr style={{ borderBottom: '2px solid #646cff' }}>
                 <th style={{ textAlign: 'left', padding: '12px' }}>Name</th>
                 <th style={{ textAlign: 'left', padding: '12px' }}>Created Date</th>
+                <th style={{ textAlign: 'right', padding: '12px' }}>Total Spent</th>
                 <th style={{ textAlign: 'center', padding: '12px' }}>Actions</th>
               </tr>
             </thead>
@@ -165,6 +166,9 @@ function Customers() {
                   </td>
                   <td style={{ padding: '12px' }}>
                     {new Date(customer.createdDate).toLocaleDateString()}
+                  </td>
+                  <td style={{ padding: '12px', textAlign: 'right' }}>
+                    ${(customer.sales || 0).toFixed(2)}
                   </td>
                   <td style={{ padding: '12px', textAlign: 'center' }}>
                     {editingId === customer.id ? (
