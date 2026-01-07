@@ -49,7 +49,7 @@ function Navigation() {
       <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
         {username && (
           <span style={{
-            color: '#646cff',
+            color: '#888',
             fontSize: '16px',
             fontWeight: '500'
           }}>
