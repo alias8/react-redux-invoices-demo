@@ -1,13 +1,13 @@
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../store/hooks';
-import { setUsername, setPassword, login } from '../store/authSlice';
+import { useAppDispatch } from '../store/hooks';
+import { login } from '../store/authSlice';
 import { useState } from 'react';
 
 function LoginPage() {
   const dispatch = useAppDispatch();
-  const username = useAppSelector((state) => state.auth.username);
-  const password = useAppSelector((state) => state.auth.password);
   const navigate = useNavigate();
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -54,7 +54,7 @@ function LoginPage() {
             id="username"
             type="text"
             value={username}
-            onChange={(e) => dispatch(setUsername(e.target.value))}
+            onChange={(e) => setUsername(e.target.value)}
             required
             style={{ width: '100%', padding: '8px', fontSize: '16px' }}
           />
@@ -67,7 +67,7 @@ function LoginPage() {
             id="password"
             type="password"
             value={password}
-            onChange={(e) => dispatch(setPassword(e.target.value))}
+            onChange={(e) => setPassword(e.target.value)}
             required
             style={{ width: '100%', padding: '8px', fontSize: '16px' }}
           />

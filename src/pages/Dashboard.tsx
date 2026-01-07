@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import '../App.css'
 import {IAccount} from "../../server/serverData.js";
 
-function HomePage() {
+function Dashboard() {
   const [accounts, setProfile] = useState<IAccount[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -48,4 +48,4 @@ function HomePage() {
   )
 }
 
-export default HomePage
+export default Dashboard
