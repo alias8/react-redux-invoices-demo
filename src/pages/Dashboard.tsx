@@ -1,11 +1,21 @@
 import { useState, useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import { useAppDispatch } from '../store/hooks'
+import { logout } from '../store/authSlice'
 import '../App.css'
 import {IAccount} from "../../server/serverData.js";
 
 function Dashboard() {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const [accounts, setProfile] = useState<IAccount[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/');
+  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -38,7 +48,23 @@ function Dashboard() {
 
   return (
     <>
-      <h1>Resume</h1>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
+        <h1>Resume</h1>
+        <button
+          onClick={handleLogout}
+          style={{
+            padding: '10px 20px',
+            fontSize: '14px',
+            backgroundColor: '#dc3545',
+            color: 'white',
+            border: 'none',
+            borderRadius: '4px',
+            cursor: 'pointer'
+          }}
+        >
+          Logout
+        </button>
+      </div>
       {accounts && (
         <div className="card">
           <h2>{accounts[0].customerIDs}</h2>
