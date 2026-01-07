@@ -44,6 +44,12 @@ function App() {
                   <InvoiceDetails />
               </ProtectedRoute>
           } />
+
+        <Route path="*" element={
+          <ProtectedRoute>
+            <Navigate to="/accounts" replace />
+          </ProtectedRoute>
+        } />
       </Routes>
     </BrowserRouter>
   )

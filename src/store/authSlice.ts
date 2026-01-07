@@ -8,13 +8,25 @@ interface AuthState {
     meta: object;
 }
 
-const initialState: AuthState = {
-    id: null,
-    loggedIn: false,
-    username: null,
-    error: null,
-    meta: {}
+const loadAuthFromStorage = (): AuthState => {
+    try {
+        const savedAuth = localStorage.getItem('auth');
+        if (savedAuth) {
+            return JSON.parse(savedAuth);
+        }
+    } catch (error) {
+        console.error('Failed to load auth from localStorage:', error);
+    }
+    return {
+        id: null,
+        loggedIn: false,
+        username: null,
+        error: null,
+        meta: {}
+    };
 };
+
+const initialState: AuthState = loadAuthFromStorage();
 
 const authSlice = createSlice({
   name: 'auth',
@@ -24,10 +36,13 @@ const authSlice = createSlice({
       state.loggedIn = true;
       state.username = action.payload.username;
       state.id = action.payload.id;
+      localStorage.setItem('auth', JSON.stringify(state));
     },
     logout: (state) => {
       state.loggedIn = false;
       state.username = null;
+      state.id = null;
+      localStorage.removeItem('auth');
     },
   },
 });
