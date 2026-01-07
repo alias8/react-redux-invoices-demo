@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { setAccounts, setLoading, setError } from '../store/accountsSlice';
 import { setCustomers, setLoading as setCustomersLoading, setError as setCustomersError } from '../store/customersSlice';
 import Navigation from '../components/Navigation';
+import LoadingSpinner from '../components/LoadingSpinner';
 import '../App.css';
 
 function AccountDetails() {
@@ -52,11 +53,27 @@ function AccountDetails() {
     : [];
 
   if (loading || customersLoading) {
-    return <div style={{ padding: '20px', textAlign: 'center' }}>Loading...</div>;
+    return (
+      <>
+        <Navigation />
+        <h1>Account Details</h1>
+        <div className="card">
+          <LoadingSpinner />
+        </div>
+      </>
+    );
   }
 
   if (error || customersError) {
-    return <div style={{ padding: '20px', textAlign: 'center', color: '#dc3545' }}>Error: {error || customersError}</div>;
+    return (
+      <>
+        <Navigation />
+        <h1>Account Details</h1>
+        <div className="card">
+          <div style={{ padding: '20px', textAlign: 'center', color: '#dc3545' }}>Error: {error || customersError}</div>
+        </div>
+      </>
+    );
   }
 
   if (!account) {

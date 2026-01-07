@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { setCustomers, setLoading, setError } from '../store/customersSlice';
 import { setInvoices, setLoading as setInvoicesLoading, setError as setInvoicesError } from '../store/invoicesSlice';
 import Navigation from '../components/Navigation';
+import LoadingSpinner from '../components/LoadingSpinner';
 import '../App.css';
 
 function CustomerDetails() {
@@ -55,11 +56,27 @@ function CustomerDetails() {
   const invoicesTotal = customerInvoices.reduce((sum, invoice) => sum + invoice.purchasedPrice, 0);
 
   if (loading || invoicesLoading) {
-    return <div style={{ padding: '20px', textAlign: 'center' }}>Loading...</div>;
+    return (
+      <>
+        <Navigation />
+        <h1>Customer Details</h1>
+        <div className="card">
+          <LoadingSpinner />
+        </div>
+      </>
+    );
   }
 
   if (error || invoicesError) {
-    return <div style={{ padding: '20px', textAlign: 'center', color: '#dc3545' }}>Error: {error || invoicesError}</div>;
+    return (
+      <>
+        <Navigation />
+        <h1>Customer Details</h1>
+        <div className="card">
+          <div style={{ padding: '20px', textAlign: 'center', color: '#dc3545' }}>Error: {error || invoicesError}</div>
+        </div>
+      </>
+    );
   }
 
   if (!customer) {

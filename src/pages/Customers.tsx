@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { setCustomers, setLoading, setError } from '../store/customersSlice';
 import { setAccounts } from '../store/accountsSlice';
 import Navigation from '../components/Navigation';
+import LoadingSpinner from '../components/LoadingSpinner';
 import '../App.css';
 
 function Customers() {
@@ -110,21 +111,17 @@ function Customers() {
     }
   };
 
-  if (loading) {
-    return <div style={{ padding: '20px', textAlign: 'center' }}>Loading...</div>;
-  }
-
-  if (error) {
-    return <div style={{ padding: '20px', textAlign: 'center', color: '#dc3545' }}>Error: {error}</div>;
-  }
-
   return (
     <>
       <Navigation />
       <h1>Customers</h1>
 
       <div className="card">
-        {userCustomers.length === 0 ? (
+        {loading ? (
+          <LoadingSpinner />
+        ) : error ? (
+          <div style={{ padding: '20px', textAlign: 'center', color: '#dc3545' }}>Error: {error}</div>
+        ) : userCustomers.length === 0 ? (
           <p>No customers found for your account.</p>
         ) : (
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>

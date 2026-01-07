@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { setAccounts, setLoading, setError } from '../store/accountsSlice';
 import Navigation from '../components/Navigation';
+import LoadingSpinner from '../components/LoadingSpinner';
 import '../App.css';
 
 function Accounts() {
@@ -96,31 +97,17 @@ function Accounts() {
     }
   };
 
-  if (loading) {
-    return (
-      <>
-        <Navigation />
-        <div style={{ padding: '20px', textAlign: 'center' }}>Loading...</div>
-      </>
-    );
-  }
-
-  if (error) {
-    return (
-      <>
-        <Navigation />
-        <div style={{ padding: '20px', textAlign: 'center', color: '#dc3545' }}>Error: {error}</div>
-      </>
-    );
-  }
-
   return (
     <>
       <Navigation />
       <h1>Accounts</h1>
 
       <div className="card">
-        {userAccounts.length === 0 ? (
+        {loading ? (
+          <LoadingSpinner />
+        ) : error ? (
+          <div style={{ padding: '20px', textAlign: 'center', color: '#dc3545' }}>Error: {error}</div>
+        ) : userAccounts.length === 0 ? (
           <p>No accounts found.</p>
         ) : (
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>

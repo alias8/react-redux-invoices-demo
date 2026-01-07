@@ -13,6 +13,13 @@ const PORT = process.env.PORT || 8080;
 // Middleware to parse JSON bodies
 app.use(express.json());
 
+// Middleware to add realistic random delay to API requests
+app.use('/api', (req: Request, res: Response, next) => {
+    // Random delay between 100ms and 800ms
+    const delay = Math.floor(Math.random() * 700) + 100;
+    setTimeout(next, delay);
+});
+
 // API routes
 app.get('/api/users', (req: Request, res: Response) => {
     const { username, password } = req.query;
