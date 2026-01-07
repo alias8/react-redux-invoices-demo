@@ -32,6 +32,36 @@ app.get('/api/accounts', (_req: Request, res: Response) => {
     res.json(dbData.accounts || {});
 });
 
+app.put('/api/accounts/:id', (req: Request, res: Response) => {
+    const { id } = req.params;
+    const { name, description } = req.body;
+
+    const account = dbData.accounts.find(a => a.id === id);
+
+    if (!account) {
+        res.status(404).json({ error: 'Account not found' });
+        return;
+    }
+
+    account.name = name;
+    account.description = description;
+    res.json(account);
+});
+
+app.delete('/api/accounts/:id', (req: Request, res: Response) => {
+    const { id } = req.params;
+
+    const accountIndex = dbData.accounts.findIndex(a => a.id === id);
+
+    if (accountIndex === -1) {
+        res.status(404).json({ error: 'Account not found' });
+        return;
+    }
+
+    dbData.accounts.splice(accountIndex, 1);
+    res.json({ success: true });
+});
+
 app.get('/api/customers', (_req: Request, res: Response) => {
     res.json(dbData.customers || []);
 });
