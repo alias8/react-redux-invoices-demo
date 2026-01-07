@@ -3,6 +3,7 @@ import './App.css'
 import LoginPage from './pages/LoginPage'
 import Dashboard from './pages/Dashboard.tsx'
 import Customers from './pages/Customers.tsx'
+import Accounts from './pages/Accounts.tsx'
 import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
@@ -17,11 +18,17 @@ function App() {
           </ProtectedRoute>
         } />
 
-          <Route path="/customers" element={
-              <ProtectedRoute>
-                  <Customers />
-              </ProtectedRoute>
-          } />
+        <Route path="/accounts" element={
+          <ProtectedRoute>
+            <Accounts />
+          </ProtectedRoute>
+        } />
+
+        <Route path="/customers" element={
+          <ProtectedRoute>
+            <Customers />
+          </ProtectedRoute>
+        } />
       </Routes>
     </BrowserRouter>
   )

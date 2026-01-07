@@ -1,16 +1,14 @@
 import { useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector } from '../store/hooks'
-import { logout } from '../store/authSlice'
 import { setAccounts, setLoading as setAccountsLoading, setError as setAccountsError } from '../store/accountsSlice'
 import { setCustomers, setLoading as setCustomersLoading, setError as setCustomersError } from '../store/customersSlice'
 import { setUsers, setLoading as setUsersLoading, setError as setUsersError } from '../store/usersSlice'
 import { setInvoices, setLoading as setInvoicesLoading, setError as setInvoicesError } from '../store/invoicesSlice'
+import Navigation from '../components/Navigation'
 import '../App.css'
 
 function Dashboard() {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const { accounts, loading: accountsLoading, error: accountsError } = useAppSelector((state) => state.accounts);
   const { customers, loading: customersLoading, error: customersError } = useAppSelector((state) => state.customers);
   const { users, loading: usersLoading, error: usersError } = useAppSelector((state) => state.users);
@@ -18,11 +16,6 @@ function Dashboard() {
 
   const loading = accountsLoading || customersLoading || usersLoading || invoicesLoading;
   const error = accountsError || customersError || usersError || invoicesError;
-
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate('/');
-  };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -69,23 +62,8 @@ function Dashboard() {
 
   return (
     <>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-        <h1>Dashboard</h1>
-        <button
-          onClick={handleLogout}
-          style={{
-            padding: '10px 20px',
-            fontSize: '14px',
-            backgroundColor: '#dc3545',
-            color: 'white',
-            border: 'none',
-            borderRadius: '4px',
-            cursor: 'pointer'
-          }}
-        >
-          Logout
-        </button>
-      </div>
+      <Navigation />
+      <h1>Dashboard</h1>
       {accounts.length > 0 && (
         <div className="card">
             <div>Accounts:</div>
