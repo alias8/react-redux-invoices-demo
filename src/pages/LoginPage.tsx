@@ -1,15 +1,16 @@
-import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { setEmail, setPassword, login } from '../store/authSlice';
 
 function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const dispatch = useAppDispatch();
+  const email = useAppSelector((state) => state.auth.email);
+  const password = useAppSelector((state) => state.auth.password);
   const navigate = useNavigate();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Add authentication logic here
-    // For now, just navigate to home
+    dispatch(login());
     navigate('/home');
   };
 
@@ -25,7 +26,7 @@ function LoginPage() {
             id="email"
             type="email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={(e) => dispatch(setEmail(e.target.value))}
             required
             style={{ width: '100%', padding: '8px', fontSize: '16px' }}
           />
@@ -38,7 +39,7 @@ function LoginPage() {
             id="password"
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => dispatch(setPassword(e.target.value))}
             required
             style={{ width: '100%', padding: '8px', fontSize: '16px' }}
           />
