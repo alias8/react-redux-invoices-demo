@@ -24,17 +24,6 @@ function Navigation() {
     }}>
       <div style={{ display: 'flex', gap: '20px' }}>
         <Link
-          to="/home"
-          style={{
-            color: '#646cff',
-            textDecoration: 'none',
-            fontSize: '16px',
-            fontWeight: '500'
-          }}
-        >
-          Home
-        </Link>
-        <Link
           to="/accounts"
           style={{
             color: '#646cff',

@@ -21,7 +21,7 @@ function LoginPage() {
       if (users.length > 0) {
         const user = users[0];
         dispatch(login({ id: user.id, username: user.username }));
-        navigate('/home');
+        navigate('/accounts');
       } else {
         setError('Invalid username or password');
       }
