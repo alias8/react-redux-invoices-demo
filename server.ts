@@ -53,7 +53,11 @@ interface DatabaseData {
 }
 
 // Load data from db.json
-const dbPath = path.join(__dirname, 'db.json');
+// When running with tsx, __dirname is the project root
+// When running compiled version, __dirname is dist-server
+const dbPath = __dirname.endsWith('dist-server')
+  ? path.join(__dirname, '..', 'db.json')
+  : path.join(__dirname, 'db.json');
 let dbData: DatabaseData = {};
 try {
   const dbContent = fs.readFileSync(dbPath, 'utf8');
@@ -80,11 +84,11 @@ app.get('/api/education', (_req: Request, res: Response) => {
 });
 
 // Serve static files from the dist directory
-app.use(express.static(path.join(__dirname, 'dist')));
+app.use(express.static(path.join(__dirname, '..', 'dist')));
 
 // Handle React routing, return all requests to the app (but only for non-API routes)
 app.get('*', (_req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+  res.sendFile(path.join(__dirname, '..', 'dist', 'index.html'));
 });
 
 app.listen(PORT, () => {
