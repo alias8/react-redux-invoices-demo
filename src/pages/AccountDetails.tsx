@@ -3,7 +3,6 @@ import { useParams, Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { setAccounts, setLoading, setError } from '../store/accountsSlice';
 import { setCustomers, setLoading as setCustomersLoading, setError as setCustomersError } from '../store/customersSlice';
-import { setInvoices, setLoading as setInvoicesLoading, setError as setInvoicesError } from '../store/invoicesSlice';
 import Navigation from '../components/Navigation';
 import '../App.css';
 
@@ -12,7 +11,6 @@ function AccountDetails() {
   const dispatch = useAppDispatch();
   const { accounts, loading, error } = useAppSelector((state) => state.accounts);
   const { customers, loading: customersLoading, error: customersError } = useAppSelector((state) => state.customers);
-  const { invoices, loading: invoicesLoading, error: invoicesError } = useAppSelector((state) => state.invoices);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -36,20 +34,10 @@ function AccountDetails() {
         }
         const customersData = await customersResponse.json();
         dispatch(setCustomers(customersData));
-
-        // Fetch invoices
-        dispatch(setInvoicesLoading(true));
-        const invoicesResponse = await fetch('/api/invoices');
-        if (!invoicesResponse.ok) {
-          throw new Error('Failed to fetch invoices');
-        }
-        const invoicesData = await invoicesResponse.json();
-        dispatch(setInvoices(invoicesData));
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : 'An error occurred';
         dispatch(setError(errorMessage));
         dispatch(setCustomersError(errorMessage));
-        dispatch(setInvoicesError(errorMessage));
       }
     };
 
@@ -63,21 +51,12 @@ function AccountDetails() {
     ? customers.filter(customer => account.customerIDs.includes(customer.id))
     : [];
 
-  // Get all invoice IDs for all customers in this account
-  const allInvoiceIDs = accountCustomers.flatMap(customer => customer.invoiceIDs);
-
-  // Filter invoices for all customers in this account
-  const accountInvoices = invoices.filter(invoice => allInvoiceIDs.includes(invoice.id));
-
-  // Calculate total of all invoices
-  const invoicesTotal = accountInvoices.reduce((sum, invoice) => sum + invoice.purchasedPrice, 0);
-
-  if (loading || customersLoading || invoicesLoading) {
+  if (loading || customersLoading) {
     return <div style={{ padding: '20px', textAlign: 'center' }}>Loading...</div>;
   }
 
-  if (error || customersError || invoicesError) {
-    return <div style={{ padding: '20px', textAlign: 'center', color: '#dc3545' }}>Error: {error || customersError || invoicesError}</div>;
+  if (error || customersError) {
+    return <div style={{ padding: '20px', textAlign: 'center', color: '#dc3545' }}>Error: {error || customersError}</div>;
   }
 
   if (!account) {
@@ -107,7 +86,7 @@ function AccountDetails() {
             <div>{account.description}</div>
 
             <div style={{ fontWeight: 'bold' }}>Total Sales:</div>
-            <div>${invoicesTotal.toFixed(2)}</div>
+            <div>${account.revenue?.toFixed(2) || '0.00'}</div>
           </div>
         </div>
       </div>

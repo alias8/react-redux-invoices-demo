@@ -129,7 +129,7 @@ function Accounts() {
                 <th style={{ textAlign: 'left', padding: '12px' }}>Name</th>
                 <th style={{ textAlign: 'left', padding: '12px' }}>Description</th>
                 <th style={{ textAlign: 'center', padding: '12px' }}>Customers</th>
-                <th style={{ textAlign: 'center', padding: '12px' }}>Revenue</th>
+                <th style={{ textAlign: 'center', padding: '12px' }}>Total Sales</th>
                 <th style={{ textAlign: 'center', padding: '12px' }}>Actions</th>
               </tr>
             </thead>
@@ -182,7 +182,7 @@ function Accounts() {
                     {account.customerIDs.length}
                   </td>
                   <td style={{ padding: '12px', textAlign: 'center' }}>
-                    {account.revenue ? `$${account.revenue.toLocaleString()}` : '-'}
+                    {account.revenue ? `$${account.revenue.toFixed(2)}` : '$0.00'}
                   </td>
                   <td style={{ padding: '12px', textAlign: 'center' }}>
                     {editingId === account.id ? (

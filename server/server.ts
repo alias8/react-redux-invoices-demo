@@ -29,7 +29,31 @@ app.get('/api/users', (req: Request, res: Response) => {
 });
 
 app.get('/api/accounts', (_req: Request, res: Response) => {
-    res.json(dbData.accounts || {});
+    // Calculate revenue for each account
+    const accountsWithRevenue = dbData.accounts.map(account => {
+        // Get all customers for this account
+        const accountCustomers = dbData.customers.filter(customer =>
+            account.customerIDs.includes(customer.id)
+        );
+
+        // Get all invoice IDs for all customers in this account
+        const allInvoiceIDs = accountCustomers.flatMap(customer => customer.invoiceIDs);
+
+        // Filter invoices for all customers in this account
+        const accountInvoices = dbData.invoices.filter(invoice =>
+            allInvoiceIDs.includes(invoice.id)
+        );
+
+        // Calculate total revenue
+        const revenue = accountInvoices.reduce((sum, invoice) => sum + invoice.purchasedPrice, 0);
+
+        return {
+            ...account,
+            revenue
+        };
+    });
+
+    res.json(accountsWithRevenue || {});
 });
 
 app.put('/api/accounts/:id', (req: Request, res: Response) => {
