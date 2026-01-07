@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { setAccounts, setLoading, setError } from '../store/accountsSlice';
 import Navigation from '../components/Navigation';
@@ -152,7 +153,9 @@ function Accounts() {
                         }}
                       />
                     ) : (
-                      account.name
+                      <Link to={`/account-details/${account.id}`} style={{ color: '#646cff', textDecoration: 'none' }}>
+                        {account.name}
+                      </Link>
                     )}
                   </td>
                   <td style={{ padding: '12px' }}>
