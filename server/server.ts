@@ -87,7 +87,23 @@ app.delete('/api/accounts/:id', (req: Request, res: Response) => {
 });
 
 app.get('/api/customers', (_req: Request, res: Response) => {
-    res.json(dbData.customers || []);
+    // Calculate sales for each customer
+    const customersWithSales = dbData.customers.map(customer => {
+        // Get all invoices for this customer
+        const customerInvoices = dbData.invoices.filter(invoice =>
+            customer.invoiceIDs.includes(invoice.id)
+        );
+
+        // Calculate total sales
+        const sales = customerInvoices.reduce((sum, invoice) => sum + invoice.purchasedPrice, 0);
+
+        return {
+            ...customer,
+            sales
+        };
+    });
+
+    res.json(customersWithSales || []);
 });
 
 app.get('/api/invoices', (_req: Request, res: Response) => {

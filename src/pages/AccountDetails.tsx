@@ -103,6 +103,7 @@ function AccountDetails() {
                 <th style={{ textAlign: 'left', padding: '12px' }}>Name</th>
                 <th style={{ textAlign: 'left', padding: '12px' }}>Created Date</th>
                 <th style={{ textAlign: 'center', padding: '12px' }}>Invoices</th>
+                <th style={{ textAlign: 'center', padding: '12px' }}>Sales</th>
               </tr>
             </thead>
             <tbody>
@@ -118,6 +119,9 @@ function AccountDetails() {
                   </td>
                   <td style={{ padding: '12px', textAlign: 'center' }}>
                     {customer.invoiceIDs.length}
+                  </td>
+                  <td style={{ padding: '12px', textAlign: 'center' }}>
+                    {customer.sales ? `$${customer.sales.toFixed(2)}` : '$0.00'}
                   </td>
                 </tr>
               ))}

@@ -17,6 +17,7 @@ export interface ICustomer {
     name: string;
     createdDate: Date;
     invoiceIDs: IInvoiceID[];
+    sales?: number;
 }
 
 export interface IInvoice {
