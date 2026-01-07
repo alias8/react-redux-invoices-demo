@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { setCustomers, setLoading, setError } from '../store/customersSlice';
 import { setInvoices, setLoading as setInvoicesLoading, setError as setInvoicesError } from '../store/invoicesSlice';
@@ -107,7 +107,11 @@ function CustomerDetails() {
             <tbody>
               {customerInvoices.map((invoice) => (
                 <tr key={invoice.id} style={{ borderBottom: '1px solid #333' }}>
-                  <td style={{ padding: '12px' }}>{invoice.description}</td>
+                  <td style={{ padding: '12px' }}>
+                    <Link to={`/invoice-details/${invoice.id}`} style={{ color: '#646cff', textDecoration: 'none' }}>
+                      {invoice.description}
+                    </Link>
+                  </td>
                   <td style={{ padding: '12px' }}>
                     {new Date(invoice.purchasedDate).toLocaleDateString()}
                   </td>

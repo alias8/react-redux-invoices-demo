@@ -6,6 +6,7 @@ import Customers from './pages/Customers.tsx'
 import CustomerDetails from './pages/CustomerDetails.tsx'
 import Accounts from './pages/Accounts.tsx'
 import AccountDetails from './pages/AccountDetails.tsx'
+import InvoiceDetails from './pages/InvoiceDetails.tsx'
 import ProtectedRoute from './components/ProtectedRoute'
 
 function App() {
@@ -43,6 +44,12 @@ function App() {
             <CustomerDetails />
           </ProtectedRoute>
         } />
+
+          <Route path="/invoice-details/:id" element={
+              <ProtectedRoute>
+                  <InvoiceDetails />
+              </ProtectedRoute>
+          } />
       </Routes>
     </BrowserRouter>
   )

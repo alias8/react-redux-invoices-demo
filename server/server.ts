@@ -40,6 +40,18 @@ app.get('/api/invoices', (_req: Request, res: Response) => {
     res.json(dbData.invoices || []);
 });
 
+app.get('/api/invoices/:id', (req: Request, res: Response) => {
+    const { id } = req.params;
+    const invoice = dbData.invoices.find(i => i.id === id);
+
+    if (!invoice) {
+        res.status(404).json({ error: 'Invoice not found' });
+        return;
+    }
+
+    res.json(invoice);
+});
+
 app.put('/api/customers/:id', (req: Request, res: Response) => {
     const { id } = req.params;
     const { name } = req.body;
