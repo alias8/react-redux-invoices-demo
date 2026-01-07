@@ -36,6 +36,10 @@ app.get('/api/customers', (_req: Request, res: Response) => {
     res.json(dbData.customers || []);
 });
 
+app.get('/api/invoices', (_req: Request, res: Response) => {
+    res.json(dbData.invoices || []);
+});
+
 app.put('/api/customers/:id', (req: Request, res: Response) => {
     const { id } = req.params;
     const { name } = req.body;
