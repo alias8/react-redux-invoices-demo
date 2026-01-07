@@ -6,8 +6,8 @@ import { useState } from 'react';
 function LoginPage() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState('user0');
+  const [password, setPassword] = useState('user0');
   const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
