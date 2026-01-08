@@ -1,16 +1,53 @@
 import express, { Request, Response, NextFunction } from 'express';
+import session from 'express-session';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dbData } from './serverData.js';
+import type { IData } from './types.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Extend session type to include our data
+declare module 'express-session' {
+  interface SessionData {
+    data: IData;
+  }
+}
 
 const app = express();
 const PORT = process.env.PORT || 8080;
 
 // Middleware to parse JSON bodies
 app.use(express.json());
+
+// Session middleware - each user gets their own data copy
+app.use(
+  session({
+    secret:
+      process.env.SESSION_SECRET || 'demo-app-secret-key-change-in-production',
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      secure: process.env.NODE_ENV === 'production',
+      maxAge: 1000 * 60 * 10, // 10 minutes
+    },
+  })
+);
+
+// Helper function to deep clone data
+const cloneData = (data: IData): IData => {
+  return JSON.parse(JSON.stringify(data));
+};
+
+// Initialize session data from dbData for each new session
+app.use('/api', (req: Request, _res: Response, next: NextFunction) => {
+  if (!req.session.data) {
+    req.session.data = cloneData(dbData);
+    console.log('✓ Initialized new session with fresh data copy');
+  }
+  next();
+});
 
 // Middleware to add realistic random delay to API requests
 app.use('/api', (_req: Request, _res: Response, next: NextFunction) => {
@@ -22,7 +59,7 @@ app.use('/api', (_req: Request, _res: Response, next: NextFunction) => {
 // API routes
 app.get('/api/users', (req: Request, res: Response) => {
   const { username, password } = req.query;
-  const users = dbData.users || [];
+  const users = req.session.data!.users || [];
   const user = users.find(
     (u) => u.username === username && u.password === password
   );
@@ -34,11 +71,11 @@ app.get('/api/users', (req: Request, res: Response) => {
   }
 });
 
-app.get('/api/accounts', (_req: Request, res: Response) => {
+app.get('/api/accounts', (req: Request, res: Response) => {
   // Calculate revenue for each account
-  const accountsWithRevenue = dbData.accounts.map((account) => {
+  const accountsWithRevenue = req.session.data!.accounts.map((account) => {
     // Get all customers for this account
-    const accountCustomers = dbData.customers.filter((customer) =>
+    const accountCustomers = req.session.data!.customers.filter((customer) =>
       account.customerIDs.includes(customer.id)
     );
 
@@ -48,7 +85,7 @@ app.get('/api/accounts', (_req: Request, res: Response) => {
     );
 
     // Filter invoices for all customers in this account
-    const accountInvoices = dbData.invoices.filter((invoice) =>
+    const accountInvoices = req.session.data!.invoices.filter((invoice) =>
       allInvoiceIDs.includes(invoice.id)
     );
 
@@ -71,7 +108,7 @@ app.put('/api/accounts/:id', (req: Request, res: Response) => {
   const { id } = req.params;
   const { name, description } = req.body;
 
-  const account = dbData.accounts.find((a) => a.id === id);
+  const account = req.session.data!.accounts.find((a) => a.id === id);
 
   if (!account) {
     res.status(404).json({ error: 'Account not found' });
@@ -86,22 +123,22 @@ app.put('/api/accounts/:id', (req: Request, res: Response) => {
 app.delete('/api/accounts/:id', (req: Request, res: Response) => {
   const { id } = req.params;
 
-  const accountIndex = dbData.accounts.findIndex((a) => a.id === id);
+  const accountIndex = req.session.data!.accounts.findIndex((a) => a.id === id);
 
   if (accountIndex === -1) {
     res.status(404).json({ error: 'Account not found' });
     return;
   }
 
-  dbData.accounts.splice(accountIndex, 1);
+  req.session.data!.accounts.splice(accountIndex, 1);
   res.json({ success: true });
 });
 
-app.get('/api/customers', (_req: Request, res: Response) => {
+app.get('/api/customers', (req: Request, res: Response) => {
   // Calculate sales for each customer
-  const customersWithSales = dbData.customers.map((customer) => {
+  const customersWithSales = req.session.data!.customers.map((customer) => {
     // Get all invoices for this customer
-    const customerInvoices = dbData.invoices.filter((invoice) =>
+    const customerInvoices = req.session.data!.invoices.filter((invoice) =>
       customer.invoiceIDs.includes(invoice.id)
     );
 
@@ -120,13 +157,13 @@ app.get('/api/customers', (_req: Request, res: Response) => {
   res.json(customersWithSales || []);
 });
 
-app.get('/api/invoices', (_req: Request, res: Response) => {
-  res.json(dbData.invoices || []);
+app.get('/api/invoices', (req: Request, res: Response) => {
+  res.json(req.session.data!.invoices || []);
 });
 
 app.get('/api/invoices/:id', (req: Request, res: Response) => {
   const { id } = req.params;
-  const invoice = dbData.invoices.find((i) => i.id === id);
+  const invoice = req.session.data!.invoices.find((i) => i.id === id);
 
   if (!invoice) {
     res.status(404).json({ error: 'Invoice not found' });
@@ -140,7 +177,7 @@ app.put('/api/customers/:id', (req: Request, res: Response) => {
   const { id } = req.params;
   const { name } = req.body;
 
-  const customer = dbData.customers.find((c) => c.id === id);
+  const customer = req.session.data!.customers.find((c) => c.id === id);
 
   if (!customer) {
     res.status(404).json({ error: 'Customer not found' });
@@ -154,14 +191,16 @@ app.put('/api/customers/:id', (req: Request, res: Response) => {
 app.delete('/api/customers/:id', (req: Request, res: Response) => {
   const { id } = req.params;
 
-  const customerIndex = dbData.customers.findIndex((c) => c.id === id);
+  const customerIndex = req.session.data!.customers.findIndex(
+    (c) => c.id === id
+  );
 
   if (customerIndex === -1) {
     res.status(404).json({ error: 'Customer not found' });
     return;
   }
 
-  dbData.customers.splice(customerIndex, 1);
+  req.session.data!.customers.splice(customerIndex, 1);
   res.json({ success: true });
 });
 
