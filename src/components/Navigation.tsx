@@ -75,4 +75,12 @@ function Navigation() {
   );
 }
 
+export const ViewHeight = ({ children }: {
+    children: React.ReactNode;
+}) => {
+    return (<div           style={{
+        height: '100vh',
+    }}>{ children }</div>)
+}
+
 export default Navigation;

@@ -7,13 +7,14 @@ import Accounts from './pages/Accounts.tsx'
 import AccountDetails from './pages/AccountDetails.tsx'
 import InvoiceDetails from './pages/InvoiceDetails.tsx'
 import ProtectedRoute from './components/ProtectedRoute'
+import { ViewHeight } from './components/Navigation'
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Navigate to="/login" replace />} />
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/login" element={<ViewHeight><LoginPage /></ViewHeight>} />
 
         <Route path="/accounts" element={
           <ProtectedRoute>

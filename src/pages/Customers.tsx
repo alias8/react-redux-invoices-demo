@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { setCustomers, setLoading, setError } from '../store/customersSlice';
 import { setAccounts } from '../store/accountsSlice';
-import Navigation from '../components/Navigation';
 import LoadingSpinner from '../components/LoadingSpinner';
 import '../App.css';
 
@@ -113,7 +112,6 @@ function Customers() {
 
   return (
     <>
-      <Navigation />
       <h1>Customers</h1>
 
       <div className="card">

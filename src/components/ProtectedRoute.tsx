@@ -1,5 +1,6 @@
 import { Navigate } from 'react-router-dom';
 import { useAppSelector } from '../store/hooks';
+import Navigation, { ViewHeight } from './Navigation';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -12,7 +13,12 @@ function ProtectedRoute({ children }: ProtectedRouteProps) {
     return <Navigate to="/login" replace />;
   }
 
-  return <>{children}</>;
+  return (
+    <ViewHeight>
+      <Navigation />
+      {children}
+    </ViewHeight>
+  );
 }
 
 export default ProtectedRoute;

@@ -3,7 +3,6 @@ import { useParams, Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { setAccounts, setLoading, setError } from '../store/accountsSlice';
 import { setCustomers, setLoading as setCustomersLoading, setError as setCustomersError } from '../store/customersSlice';
-import Navigation from '../components/Navigation';
 import LoadingSpinner from '../components/LoadingSpinner';
 import '../App.css';
 
@@ -55,7 +54,6 @@ function AccountDetails() {
   if (loading || customersLoading) {
     return (
       <>
-        <Navigation />
         <h1>Account Details</h1>
         <div className="card">
           <LoadingSpinner />
@@ -67,7 +65,6 @@ function AccountDetails() {
   if (error || customersError) {
     return (
       <>
-        <Navigation />
         <h1>Account Details</h1>
         <div className="card">
           <div style={{ padding: '20px', textAlign: 'center', color: '#dc3545' }}>Error: {error || customersError}</div>
@@ -79,7 +76,6 @@ function AccountDetails() {
   if (!account) {
     return (
       <>
-        <Navigation />
         <h1>Account Not Found</h1>
         <div className="card">
           <p>Account with ID {id} not found.</p>
@@ -90,7 +86,6 @@ function AccountDetails() {
 
   return (
     <>
-      <Navigation />
       <h1>Account Details</h1>
 
       <div className="card">

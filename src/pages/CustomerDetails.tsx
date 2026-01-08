@@ -3,7 +3,6 @@ import { useParams, Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { setCustomers, setLoading, setError } from '../store/customersSlice';
 import { setInvoices, setLoading as setInvoicesLoading, setError as setInvoicesError } from '../store/invoicesSlice';
-import Navigation from '../components/Navigation';
 import LoadingSpinner from '../components/LoadingSpinner';
 import '../App.css';
 
@@ -58,7 +57,6 @@ function CustomerDetails() {
   if (loading || invoicesLoading) {
     return (
       <>
-        <Navigation />
         <h1>Customer Details</h1>
         <div className="card">
           <LoadingSpinner />
@@ -70,7 +68,6 @@ function CustomerDetails() {
   if (error || invoicesError) {
     return (
       <>
-        <Navigation />
         <h1>Customer Details</h1>
         <div className="card">
           <div style={{ padding: '20px', textAlign: 'center', color: '#dc3545' }}>Error: {error || invoicesError}</div>
@@ -82,7 +79,6 @@ function CustomerDetails() {
   if (!customer) {
     return (
       <>
-        <Navigation />
         <h1>Customer Not Found</h1>
         <div className="card">
           <p>Customer with ID {id} not found.</p>
@@ -93,7 +89,6 @@ function CustomerDetails() {
 
   return (
     <>
-      <Navigation />
       <h1>Customer Details</h1>
 
       <div className="card">
