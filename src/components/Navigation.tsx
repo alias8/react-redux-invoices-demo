@@ -85,7 +85,7 @@ export const ViewContainer = ({ children }: { children: ReactNode }) => {
     <div
       style={{
         height: '100vh',
-        width: '55vw',
+        width: '70vw',
       }}
     >
       {children}
