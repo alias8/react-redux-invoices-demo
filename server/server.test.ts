@@ -2,6 +2,7 @@ import { describe, it, expect, beforeAll } from 'vitest';
 import request from 'supertest';
 import { createApp } from './server.js';
 import type { Express } from 'express';
+import type { IAccount, ICustomer } from './types.js';
 
 describe('Server API Tests', () => {
   let app: Express;
@@ -64,7 +65,9 @@ describe('Server API Tests', () => {
       const agent = request.agent(app);
 
       // First login to get session
-      await agent.post('/api/login').send({ username: 'user0', password: 'user0' });
+      await agent
+        .post('/api/login')
+        .send({ username: 'user0', password: 'user0' });
 
       const response = await agent.get('/api/accounts');
 
@@ -80,12 +83,14 @@ describe('Server API Tests', () => {
     it('should calculate revenue correctly', async () => {
       const agent = request.agent(app);
 
-      await agent.post('/api/login').send({ username: 'user0', password: 'user0' });
+      await agent
+        .post('/api/login')
+        .send({ username: 'user0', password: 'user0' });
 
       const response = await agent.get('/api/accounts');
 
       expect(response.status).toBe(200);
-      response.body.forEach((account: any) => {
+      response.body.forEach((account: IAccount) => {
         expect(typeof account.revenue).toBe('number');
         expect(account.revenue).toBeGreaterThanOrEqual(0);
       });
@@ -96,7 +101,9 @@ describe('Server API Tests', () => {
     it('should return customers list with sales', async () => {
       const agent = request.agent(app);
 
-      await agent.post('/api/login').send({ username: 'user0', password: 'user0' });
+      await agent
+        .post('/api/login')
+        .send({ username: 'user0', password: 'user0' });
 
       const response = await agent.get('/api/customers');
 
@@ -112,12 +119,14 @@ describe('Server API Tests', () => {
     it('should calculate sales correctly', async () => {
       const agent = request.agent(app);
 
-      await agent.post('/api/login').send({ username: 'user0', password: 'user0' });
+      await agent
+        .post('/api/login')
+        .send({ username: 'user0', password: 'user0' });
 
       const response = await agent.get('/api/customers');
 
       expect(response.status).toBe(200);
-      response.body.forEach((customer: any) => {
+      response.body.forEach((customer: ICustomer) => {
         expect(typeof customer.sales).toBe('number');
         expect(customer.sales).toBeGreaterThanOrEqual(0);
       });
@@ -128,7 +137,9 @@ describe('Server API Tests', () => {
     it('should update account successfully', async () => {
       const agent = request.agent(app);
 
-      await agent.post('/api/login').send({ username: 'user0', password: 'user0' });
+      await agent
+        .post('/api/login')
+        .send({ username: 'user0', password: 'user0' });
 
       // Get accounts to find a valid ID
       const accountsResponse = await agent.get('/api/accounts');
@@ -148,7 +159,9 @@ describe('Server API Tests', () => {
     it('should return 404 for non-existent account', async () => {
       const agent = request.agent(app);
 
-      await agent.post('/api/login').send({ username: 'user0', password: 'user0' });
+      await agent
+        .post('/api/login')
+        .send({ username: 'user0', password: 'user0' });
 
       const response = await agent
         .put('/api/accounts/nonexistent-id')
@@ -163,7 +176,9 @@ describe('Server API Tests', () => {
     it('should return invoices list', async () => {
       const agent = request.agent(app);
 
-      await agent.post('/api/login').send({ username: 'user0', password: 'user0' });
+      await agent
+        .post('/api/login')
+        .send({ username: 'user0', password: 'user0' });
 
       const response = await agent.get('/api/invoices');
 
@@ -178,8 +193,12 @@ describe('Server API Tests', () => {
       const agent2 = request.agent(app);
 
       // Initialize both sessions
-      await agent1.post('/api/login').send({ username: 'user0', password: 'user0' });
-      await agent2.post('/api/login').send({ username: 'user0', password: 'user0' });
+      await agent1
+        .post('/api/login')
+        .send({ username: 'user0', password: 'user0' });
+      await agent2
+        .post('/api/login')
+        .send({ username: 'user0', password: 'user0' });
 
       // Get accounts for both agents
       const response1 = await agent1.get('/api/accounts');

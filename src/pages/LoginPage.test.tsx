@@ -6,7 +6,7 @@ import LoginPage from './LoginPage';
 describe('LoginPage', () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    global.fetch = vi.fn();
+    globalThis.fetch = vi.fn();
   });
 
   it('should render login form', () => {
@@ -38,7 +38,7 @@ describe('LoginPage', () => {
   });
 
   it('should display error message on failed login', async () => {
-    global.fetch = vi.fn().mockResolvedValueOnce({
+    globalThis.fetch = vi.fn().mockResolvedValueOnce({
       ok: false,
       status: 401,
     });
@@ -49,12 +49,14 @@ describe('LoginPage', () => {
     fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(screen.getByText(/invalid username or password/i)).toBeInTheDocument();
+      expect(
+        screen.getByText(/invalid username or password/i)
+      ).toBeInTheDocument();
     });
   });
 
   it('should call API with correct credentials on submit', async () => {
-    global.fetch = vi.fn().mockResolvedValueOnce({
+    globalThis.fetch = vi.fn().mockResolvedValueOnce({
       ok: true,
       json: async () => ({ id: '123', username: 'user0' }),
     });
@@ -65,7 +67,7 @@ describe('LoginPage', () => {
     fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(global.fetch).toHaveBeenCalledWith('/api/login', {
+      expect(globalThis.fetch).toHaveBeenCalledWith('/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -76,7 +78,7 @@ describe('LoginPage', () => {
   });
 
   it('should dispatch login action on successful login', async () => {
-    global.fetch = vi.fn().mockResolvedValueOnce({
+    globalThis.fetch = vi.fn().mockResolvedValueOnce({
       ok: true,
       json: async () => ({ id: '123', username: 'user0' }),
     });
@@ -95,7 +97,9 @@ describe('LoginPage', () => {
   });
 
   it('should show error message on network error', async () => {
-    global.fetch = vi.fn().mockRejectedValueOnce(new Error('Network error'));
+    globalThis.fetch = vi
+      .fn()
+      .mockRejectedValueOnce(new Error('Network error'));
 
     renderWithProviders(<LoginPage />);
 

@@ -1,8 +1,12 @@
-import { ReactElement } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import { render, RenderOptions } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { configureStore, PreloadedState } from '@reduxjs/toolkit';
+import {
+  configureStore,
+  PreloadedState,
+  EnhancedStore,
+} from '@reduxjs/toolkit';
 import authReducer from '../store/authSlice';
 import accountsReducer from '../store/accountsSlice';
 import customersReducer from '../store/customersSlice';
@@ -12,7 +16,7 @@ import { RootState } from '../store/store';
 
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
   preloadedState?: PreloadedState<RootState>;
-  store?: any;
+  store?: EnhancedStore<RootState>;
 }
 
 export function renderWithProviders(
@@ -32,7 +36,7 @@ export function renderWithProviders(
     ...renderOptions
   }: ExtendedRenderOptions = {}
 ) {
-  function Wrapper({ children }: { children: React.ReactNode }) {
+  function Wrapper({ children }: { children: ReactNode }) {
     return (
       <Provider store={store}>
         <BrowserRouter>{children}</BrowserRouter>

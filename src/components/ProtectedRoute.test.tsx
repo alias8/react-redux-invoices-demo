@@ -5,7 +5,7 @@ import ProtectedRoute from './ProtectedRoute';
 
 describe('ProtectedRoute', () => {
   it('should redirect to login when not authenticated', () => {
-    const { container } = renderWithProviders(
+    renderWithProviders(
       <ProtectedRoute>
         <div>Protected Content</div>
       </ProtectedRoute>,

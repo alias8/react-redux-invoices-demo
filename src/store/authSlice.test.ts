@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, vi, type Mock } from 'vitest';
 import authReducer, { login, logout } from './authSlice';
 
 describe('authSlice', () => {
@@ -69,7 +69,7 @@ describe('authSlice', () => {
     authReducer(initialState, login({ id: '456', username: 'john' }));
 
     expect(localStorage.setItem).toHaveBeenCalledTimes(1);
-    const savedData = (localStorage.setItem as any).mock.calls[0][1];
+    const savedData = (localStorage.setItem as Mock).mock.calls[0][1] as string;
     const parsed = JSON.parse(savedData);
     expect(parsed.username).toBe('john');
     expect(parsed.id).toBe('456');
