@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../store/hooks';
 import { login } from '../store/authSlice';
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 
 function LoginPage() {
   const dispatch = useAppDispatch();
@@ -10,7 +10,7 @@ function LoginPage() {
   const [password, setPassword] = useState('user0');
   const [error, setError] = useState('');
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
 

@@ -1,9 +1,10 @@
 import { Navigate } from 'react-router-dom';
 import { useAppSelector } from '../store/hooks';
 import Navigation, { ViewContainer } from './Navigation';
+import { type ReactNode } from 'react';
 
 interface ProtectedRouteProps {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 function ProtectedRoute({ children }: ProtectedRouteProps) {

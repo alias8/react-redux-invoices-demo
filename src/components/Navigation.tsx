@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { logout } from '../store/authSlice';
+import { type ReactNode } from 'react';
 
 function Navigation() {
   const dispatch = useAppDispatch();
@@ -79,7 +80,7 @@ function Navigation() {
   );
 }
 
-export const ViewContainer = ({ children }: { children: React.ReactNode }) => {
+export const ViewContainer = ({ children }: { children: ReactNode }) => {
   return (
     <div
       style={{
