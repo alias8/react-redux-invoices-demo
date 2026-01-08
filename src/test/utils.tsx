@@ -4,8 +4,8 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import {
   configureStore,
-  PreloadedState,
   EnhancedStore,
+  combineReducers,
 } from '@reduxjs/toolkit';
 import authReducer from '../store/authSlice';
 import accountsReducer from '../store/accountsSlice';
@@ -14,28 +14,32 @@ import invoicesReducer from '../store/invoicesSlice';
 import usersReducer from '../store/usersSlice';
 import { RootState } from '../store/store';
 
+const rootReducer = combineReducers({
+  auth: authReducer,
+  accounts: accountsReducer,
+  customers: customersReducer,
+  invoices: invoicesReducer,
+  users: usersReducer,
+});
+
 interface ExtendedRenderOptions extends Omit<RenderOptions, 'queries'> {
-  preloadedState?: PreloadedState<RootState>;
+  preloadedState?: Partial<RootState>;
   store?: EnhancedStore<RootState>;
 }
 
 export function renderWithProviders(
   ui: ReactElement,
-  {
+  extendedRenderOptions: ExtendedRenderOptions = {}
+) {
+  const {
     preloadedState = {},
     store = configureStore({
-      reducer: {
-        auth: authReducer,
-        accounts: accountsReducer,
-        customers: customersReducer,
-        invoices: invoicesReducer,
-        users: usersReducer,
-      },
-      preloadedState,
+      reducer: rootReducer,
+      preloadedState: preloadedState as never,
     }),
     ...renderOptions
-  }: ExtendedRenderOptions = {}
-) {
+  } = extendedRenderOptions;
+
   function Wrapper({ children }: { children: ReactNode }) {
     return (
       <Provider store={store}>
