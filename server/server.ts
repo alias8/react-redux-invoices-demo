@@ -57,17 +57,23 @@ app.use('/api', (_req: Request, _res: Response, next: NextFunction) => {
 });
 
 // API routes
-app.get('/api/users', (req: Request, res: Response) => {
-  const { username, password } = req.query;
+app.post('/api/login', (req: Request, res: Response) => {
+  const { username, password } = req.body;
+
+  if (!username || !password) {
+    res.status(400).json({ error: 'Username and password are required' });
+    return;
+  }
+
   const users = req.session.data!.users || [];
   const user = users.find(
     (u) => u.username === username && u.password === password
   );
 
   if (user) {
-    res.json([user]);
+    res.json({ id: user.id, username: user.username });
   } else {
-    res.json([]);
+    res.status(401).json({ error: 'Invalid username or password' });
   }
 });
 

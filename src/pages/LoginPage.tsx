@@ -15,13 +15,16 @@ function LoginPage() {
     setError('');
 
     try {
-      const response = await fetch(
-        `/api/users?username=${username}&password=${password}`
-      );
-      const users = await response.json();
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
 
-      if (users.length > 0) {
-        const user = users[0];
+      if (response.ok) {
+        const user = await response.json();
         dispatch(login({ id: user.id, username: user.username }));
         navigate('/accounts');
       } else {

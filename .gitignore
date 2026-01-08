@@ -13,6 +13,14 @@ dist-server
 dist-ssr
 *.local
 
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Elastic Beanstalk build artifacts
+.elasticbeanstalk/app_versions/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
