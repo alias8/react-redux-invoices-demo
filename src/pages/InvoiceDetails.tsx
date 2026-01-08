@@ -26,7 +26,8 @@ function InvoiceDetails() {
           setInvoice(data);
         }
       } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'An error occurred';
+        const errorMessage =
+          err instanceof Error ? err.message : 'An error occurred';
         setError(errorMessage);
       } finally {
         setLoading(false);
@@ -37,11 +38,17 @@ function InvoiceDetails() {
   }, [id]);
 
   if (loading) {
-    return <div style={{ padding: '20px', textAlign: 'center' }}>Loading...</div>;
+    return (
+      <div style={{ padding: '20px', textAlign: 'center' }}>Loading...</div>
+    );
   }
 
   if (error) {
-    return <div style={{ padding: '20px', textAlign: 'center', color: '#dc3545' }}>Error: {error}</div>;
+    return (
+      <div style={{ padding: '20px', textAlign: 'center', color: '#dc3545' }}>
+        Error: {error}
+      </div>
+    );
   }
 
   if (!invoice) {
@@ -63,9 +70,17 @@ function InvoiceDetails() {
 
       <div className="card">
         <div style={{ marginBottom: '20px' }}>
-          <h2 style={{ marginTop: 0, marginBottom: '20px' }}>{invoice.description}</h2>
+          <h2 style={{ marginTop: 0, marginBottom: '20px' }}>
+            {invoice.description}
+          </h2>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '150px 1fr', gap: '12px' }}>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '150px 1fr',
+              gap: '12px',
+            }}
+          >
             <div style={{ fontWeight: 'bold' }}>Invoice ID:</div>
             <div>{invoice.id}</div>
 

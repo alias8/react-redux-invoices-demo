@@ -1,29 +1,29 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface AuthState {
-    id: string | null;
-    loggedIn: boolean;
-    username: string | null;
-    error: Error | null;
-    meta: object;
+  id: string | null;
+  loggedIn: boolean;
+  username: string | null;
+  error: Error | null;
+  meta: object;
 }
 
 const loadAuthFromStorage = (): AuthState => {
-    try {
-        const savedAuth = localStorage.getItem('auth');
-        if (savedAuth) {
-            return JSON.parse(savedAuth);
-        }
-    } catch (error) {
-        console.error('Failed to load auth from localStorage:', error);
+  try {
+    const savedAuth = localStorage.getItem('auth');
+    if (savedAuth) {
+      return JSON.parse(savedAuth);
     }
-    return {
-        id: null,
-        loggedIn: false,
-        username: null,
-        error: null,
-        meta: {}
-    };
+  } catch (error) {
+    console.error('Failed to load auth from localStorage:', error);
+  }
+  return {
+    id: null,
+    loggedIn: false,
+    username: null,
+    error: null,
+    meta: {},
+  };
 };
 
 const initialState: AuthState = loadAuthFromStorage();

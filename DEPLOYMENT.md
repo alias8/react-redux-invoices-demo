@@ -3,6 +3,7 @@
 ## Prerequisites
 
 1. Install the AWS CLI and EB CLI:
+
    ```bash
    pip install awsebcli
    ```
@@ -15,9 +16,11 @@
 ## Initial Setup
 
 1. Initialize Elastic Beanstalk application:
+
    ```bash
    eb init
    ```
+
    - Select your region (default: us-east-1)
    - Application name: react-redux-invoices
    - Platform: Node.js 20
@@ -34,6 +37,7 @@
 **Important**: Always build the React app locally before deploying.
 
 1. Build the application:
+
    ```bash
    npm run build
    ```
@@ -44,6 +48,7 @@
    ```
 
 Or use the combined command:
+
 ```bash
 npm run deploy
 ```
@@ -79,6 +84,7 @@ npm run deploy
 ## Configuration
 
 The deployment is configured with:
+
 - **Platform**: Node.js 20 running on Amazon Linux 2023
 - **Server**: Express.js serving static files from `dist/`
 - **Port**: 8080 (required by Elastic Beanstalk)
@@ -88,11 +94,13 @@ The deployment is configured with:
 ## Environment Variables
 
 To set environment variables:
+
 ```bash
 eb setenv KEY=value
 ```
 
 To set multiple variables:
+
 ```bash
 eb setenv KEY1=value1 KEY2=value2
 ```
@@ -100,23 +108,28 @@ eb setenv KEY1=value1 KEY2=value2
 ## Troubleshooting
 
 ### Health Status is Red
+
 1. Check logs: `eb logs -z`
 2. Look for errors in `eb-engine.log` and `web.stdout.log`
 3. Verify the `dist/` directory exists and contains built files
 4. Ensure you ran `npm run build` before deploying
 
 ### Build Fails Locally
+
 If `npm run build` fails with TypeScript errors:
+
 - Ensure `tsconfig.node.json` has `"composite": true` in compilerOptions
 - This is required for project references to work correctly
 
 ### Deployment Fails
+
 1. Verify build succeeded locally: `npm run build`
 2. Test server locally: `npm start`
 3. Check that `dist/index.html` exists
 4. Ensure AWS credentials are configured correctly
 
 ### App Not Loading
+
 1. Check environment health: `eb status`
 2. View logs: `eb logs`
 3. Verify Express server is running: check `web.stdout.log`

@@ -2,15 +2,25 @@ import { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { setCustomers, setLoading, setError } from '../store/customersSlice';
-import { setInvoices, setLoading as setInvoicesLoading, setError as setInvoicesError } from '../store/invoicesSlice';
+import {
+  setInvoices,
+  setLoading as setInvoicesLoading,
+  setError as setInvoicesError,
+} from '../store/invoicesSlice';
 import LoadingSpinner from '../components/LoadingSpinner';
 import '../App.css';
 
 function CustomerDetails() {
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
-  const { customers, loading, error } = useAppSelector((state) => state.customers);
-  const { invoices, loading: invoicesLoading, error: invoicesError } = useAppSelector((state) => state.invoices);
+  const { customers, loading, error } = useAppSelector(
+    (state) => state.customers
+  );
+  const {
+    invoices,
+    loading: invoicesLoading,
+    error: invoicesError,
+  } = useAppSelector((state) => state.invoices);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,7 +45,8 @@ function CustomerDetails() {
         const invoicesData = await invoicesResponse.json();
         dispatch(setInvoices(invoicesData));
       } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'An error occurred';
+        const errorMessage =
+          err instanceof Error ? err.message : 'An error occurred';
         dispatch(setError(errorMessage));
         dispatch(setInvoicesError(errorMessage));
       }
@@ -44,15 +55,18 @@ function CustomerDetails() {
     fetchData();
   }, [dispatch, customers.length]);
 
-  const customer = customers.find(c => c.id === id);
+  const customer = customers.find((c) => c.id === id);
 
   // Filter invoices for this customer
   const customerInvoices = customer
-    ? invoices.filter(invoice => customer.invoiceIDs.includes(invoice.id))
+    ? invoices.filter((invoice) => customer.invoiceIDs.includes(invoice.id))
     : [];
 
   // Calculate total of all invoices
-  const invoicesTotal = customerInvoices.reduce((sum, invoice) => sum + invoice.purchasedPrice, 0);
+  const invoicesTotal = customerInvoices.reduce(
+    (sum, invoice) => sum + invoice.purchasedPrice,
+    0
+  );
 
   if (loading || invoicesLoading) {
     return (
@@ -70,7 +84,11 @@ function CustomerDetails() {
       <>
         <h1>Customer Details</h1>
         <div className="card">
-          <div style={{ padding: '20px', textAlign: 'center', color: '#dc3545' }}>Error: {error || invoicesError}</div>
+          <div
+            style={{ padding: '20px', textAlign: 'center', color: '#dc3545' }}
+          >
+            Error: {error || invoicesError}
+          </div>
         </div>
       </>
     );
@@ -93,9 +111,17 @@ function CustomerDetails() {
 
       <div className="card">
         <div style={{ marginBottom: '20px' }}>
-          <h2 style={{ marginTop: 0, marginBottom: '20px' }}>{customer.name}</h2>
+          <h2 style={{ marginTop: 0, marginBottom: '20px' }}>
+            {customer.name}
+          </h2>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '150px 1fr', gap: '12px' }}>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '150px 1fr',
+              gap: '12px',
+            }}
+          >
             <div style={{ fontWeight: 'bold' }}>Customer ID:</div>
             <div>{customer.id}</div>
 
@@ -117,8 +143,12 @@ function CustomerDetails() {
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
               <tr style={{ borderBottom: '2px solid #646cff' }}>
-                <th style={{ textAlign: 'left', padding: '12px' }}>Description</th>
-                <th style={{ textAlign: 'left', padding: '12px' }}>Purchased Date</th>
+                <th style={{ textAlign: 'left', padding: '12px' }}>
+                  Description
+                </th>
+                <th style={{ textAlign: 'left', padding: '12px' }}>
+                  Purchased Date
+                </th>
                 <th style={{ textAlign: 'right', padding: '12px' }}>Price</th>
               </tr>
             </thead>
@@ -126,7 +156,10 @@ function CustomerDetails() {
               {customerInvoices.map((invoice) => (
                 <tr key={invoice.id} style={{ borderBottom: '1px solid #333' }}>
                   <td style={{ padding: '12px' }}>
-                    <Link to={`/invoice-details/${invoice.id}`} style={{ color: '#646cff', textDecoration: 'none' }}>
+                    <Link
+                      to={`/invoice-details/${invoice.id}`}
+                      style={{ color: '#646cff', textDecoration: 'none' }}
+                    >
                       {invoice.description}
                     </Link>
                   </td>

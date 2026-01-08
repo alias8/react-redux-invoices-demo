@@ -7,7 +7,9 @@ import '../App.css';
 
 function Accounts() {
   const dispatch = useAppDispatch();
-  const { accounts, loading, error } = useAppSelector((state) => state.accounts);
+  const { accounts, loading, error } = useAppSelector(
+    (state) => state.accounts
+  );
   const { id: userId } = useAppSelector((state) => state.auth);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editName, setEditName] = useState('');
@@ -25,7 +27,8 @@ function Accounts() {
         const accountsData = await response.json();
         dispatch(setAccounts(accountsData));
       } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'An error occurred';
+        const errorMessage =
+          err instanceof Error ? err.message : 'An error occurred';
         dispatch(setError(errorMessage));
       }
     };
@@ -33,9 +36,13 @@ function Accounts() {
     fetchData();
   }, [dispatch]);
 
-  const userAccounts = accounts.filter(account => account.ownedBy === userId);
+  const userAccounts = accounts.filter((account) => account.ownedBy === userId);
 
-  const handleEdit = (accountId: string, currentName: string, currentDescription: string) => {
+  const handleEdit = (
+    accountId: string,
+    currentName: string,
+    currentDescription: string
+  ) => {
     setEditingId(accountId);
     setEditName(currentName);
     setEditDescription(currentDescription);
@@ -55,15 +62,18 @@ function Accounts() {
         throw new Error('Failed to update account');
       }
 
-      const updatedAccounts = accounts.map(account =>
-        account.id === accountId ? { ...account, name: editName, description: editDescription } : account
+      const updatedAccounts = accounts.map((account) =>
+        account.id === accountId
+          ? { ...account, name: editName, description: editDescription }
+          : account
       );
       dispatch(setAccounts(updatedAccounts));
       setEditingId(null);
       setEditName('');
       setEditDescription('');
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to update account';
+      const errorMessage =
+        err instanceof Error ? err.message : 'Failed to update account';
       alert(errorMessage);
     }
   };
@@ -88,10 +98,13 @@ function Accounts() {
         throw new Error('Failed to delete account');
       }
 
-      const updatedAccounts = accounts.filter(account => account.id !== accountId);
+      const updatedAccounts = accounts.filter(
+        (account) => account.id !== accountId
+      );
       dispatch(setAccounts(updatedAccounts));
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to delete account';
+      const errorMessage =
+        err instanceof Error ? err.message : 'Failed to delete account';
       alert(errorMessage);
     }
   };
@@ -104,7 +117,11 @@ function Accounts() {
         {loading ? (
           <LoadingSpinner />
         ) : error ? (
-          <div style={{ padding: '20px', textAlign: 'center', color: '#dc3545' }}>Error: {error}</div>
+          <div
+            style={{ padding: '20px', textAlign: 'center', color: '#dc3545' }}
+          >
+            Error: {error}
+          </div>
         ) : userAccounts.length === 0 ? (
           <p>No accounts found.</p>
         ) : (
@@ -112,10 +129,18 @@ function Accounts() {
             <thead>
               <tr style={{ borderBottom: '2px solid #646cff' }}>
                 <th style={{ textAlign: 'left', padding: '12px' }}>Name</th>
-                <th style={{ textAlign: 'left', padding: '12px' }}>Description</th>
-                <th style={{ textAlign: 'center', padding: '12px' }}>Customers</th>
-                <th style={{ textAlign: 'center', padding: '12px' }}>Total Sales</th>
-                <th style={{ textAlign: 'center', padding: '12px' }}>Actions</th>
+                <th style={{ textAlign: 'left', padding: '12px' }}>
+                  Description
+                </th>
+                <th style={{ textAlign: 'center', padding: '12px' }}>
+                  Customers
+                </th>
+                <th style={{ textAlign: 'center', padding: '12px' }}>
+                  Total Sales
+                </th>
+                <th style={{ textAlign: 'center', padding: '12px' }}>
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -134,11 +159,14 @@ function Accounts() {
                           borderRadius: '4px',
                           backgroundColor: '#1a1a1a',
                           color: 'white',
-                          width: '200px'
+                          width: '200px',
                         }}
                       />
                     ) : (
-                      <Link to={`/account-details/${account.id}`} style={{ color: '#646cff', textDecoration: 'none' }}>
+                      <Link
+                        to={`/account-details/${account.id}`}
+                        style={{ color: '#646cff', textDecoration: 'none' }}
+                      >
                         {account.name}
                       </Link>
                     )}
@@ -156,7 +184,7 @@ function Accounts() {
                           borderRadius: '4px',
                           backgroundColor: '#1a1a1a',
                           color: 'white',
-                          width: '300px'
+                          width: '300px',
                         }}
                       />
                     ) : (
@@ -167,7 +195,9 @@ function Accounts() {
                     {account.customerIDs.length}
                   </td>
                   <td style={{ padding: '12px', textAlign: 'center' }}>
-                    {account.revenue ? `$${account.revenue.toFixed(2)}` : '$0.00'}
+                    {account.revenue
+                      ? `$${account.revenue.toFixed(2)}`
+                      : '$0.00'}
                   </td>
                   <td style={{ padding: '12px', textAlign: 'center' }}>
                     {editingId === account.id ? (
@@ -182,7 +212,7 @@ function Accounts() {
                             border: 'none',
                             borderRadius: '4px',
                             cursor: 'pointer',
-                            marginRight: '8px'
+                            marginRight: '8px',
                           }}
                         >
                           Save
@@ -196,7 +226,7 @@ function Accounts() {
                             color: 'white',
                             border: 'none',
                             borderRadius: '4px',
-                            cursor: 'pointer'
+                            cursor: 'pointer',
                           }}
                         >
                           Cancel
@@ -205,7 +235,13 @@ function Accounts() {
                     ) : (
                       <>
                         <button
-                          onClick={() => handleEdit(account.id, account.name, account.description)}
+                          onClick={() =>
+                            handleEdit(
+                              account.id,
+                              account.name,
+                              account.description
+                            )
+                          }
                           style={{
                             padding: '6px 12px',
                             fontSize: '12px',
@@ -214,7 +250,7 @@ function Accounts() {
                             border: 'none',
                             borderRadius: '4px',
                             cursor: 'pointer',
-                            marginRight: '8px'
+                            marginRight: '8px',
                           }}
                         >
                           Edit
@@ -228,7 +264,7 @@ function Accounts() {
                             color: 'white',
                             border: 'none',
                             borderRadius: '4px',
-                            cursor: 'pointer'
+                            cursor: 'pointer',
                           }}
                         >
                           Delete

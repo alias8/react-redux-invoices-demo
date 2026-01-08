@@ -14,14 +14,16 @@ function Navigation() {
   };
 
   return (
-    <nav style={{
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      padding: '10px 0',
-      marginBottom: '20px',
-      borderBottom: '2px solid #646cff'
-    }}>
+    <nav
+      style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        padding: '10px 0',
+        marginBottom: '20px',
+        borderBottom: '2px solid #646cff',
+      }}
+    >
       <div style={{ display: 'flex', gap: '20px' }}>
         <Link
           to="/accounts"
@@ -29,7 +31,7 @@ function Navigation() {
             color: '#646cff',
             textDecoration: 'none',
             fontSize: '16px',
-            fontWeight: '500'
+            fontWeight: '500',
           }}
         >
           Accounts
@@ -40,7 +42,7 @@ function Navigation() {
             color: '#646cff',
             textDecoration: 'none',
             fontSize: '16px',
-            fontWeight: '500'
+            fontWeight: '500',
           }}
         >
           Customers
@@ -48,11 +50,13 @@ function Navigation() {
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
         {username && (
-          <span style={{
-            color: '#888',
-            fontSize: '16px',
-            fontWeight: '500'
-          }}>
+          <span
+            style={{
+              color: '#888',
+              fontSize: '16px',
+              fontWeight: '500',
+            }}
+          >
             Logged in as: {username}
           </span>
         )}
@@ -65,7 +69,7 @@ function Navigation() {
             color: 'white',
             border: 'none',
             borderRadius: '4px',
-            cursor: 'pointer'
+            cursor: 'pointer',
           }}
         >
           Logout
@@ -75,13 +79,17 @@ function Navigation() {
   );
 }
 
-export const ViewContainer = ({ children }: {
-    children: React.ReactNode;
-}) => {
-    return (<div           style={{
+export const ViewContainer = ({ children }: { children: React.ReactNode }) => {
+  return (
+    <div
+      style={{
         height: '100vh',
         width: '55vw',
-    }}>{ children }</div>)
-}
+      }}
+    >
+      {children}
+    </div>
+  );
+};
 
 export default Navigation;

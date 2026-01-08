@@ -15,7 +15,9 @@ function LoginPage() {
     setError('');
 
     try {
-      const response = await fetch(`/api/users?username=${username}&password=${password}`);
+      const response = await fetch(
+        `/api/users?username=${username}&password=${password}`
+      );
       const users = await response.json();
 
       if (users.length > 0) {
@@ -35,19 +37,24 @@ function LoginPage() {
     <div style={{ maxWidth: '400px', margin: '50px auto', padding: '20px' }}>
       <h1>Login</h1>
       {error && (
-        <div style={{
-          padding: '10px',
-          marginBottom: '15px',
-          backgroundColor: '#ffebee',
-          color: '#c62828',
-          borderRadius: '4px'
-        }}>
+        <div
+          style={{
+            padding: '10px',
+            marginBottom: '15px',
+            backgroundColor: '#ffebee',
+            color: '#c62828',
+            borderRadius: '4px',
+          }}
+        >
           {error}
         </div>
       )}
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="username" style={{ display: 'block', marginBottom: '5px' }}>
+          <label
+            htmlFor="username"
+            style={{ display: 'block', marginBottom: '5px' }}
+          >
             Username:
           </label>
           <input
@@ -60,7 +67,10 @@ function LoginPage() {
           />
         </div>
         <div style={{ marginBottom: '15px' }}>
-          <label htmlFor="password" style={{ display: 'block', marginBottom: '5px' }}>
+          <label
+            htmlFor="password"
+            style={{ display: 'block', marginBottom: '5px' }}
+          >
             Password:
           </label>
           <input
@@ -82,7 +92,7 @@ function LoginPage() {
             color: 'white',
             border: 'none',
             borderRadius: '4px',
-            cursor: 'pointer'
+            cursor: 'pointer',
           }}
         >
           Login

@@ -2,15 +2,25 @@ import { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { setAccounts, setLoading, setError } from '../store/accountsSlice';
-import { setCustomers, setLoading as setCustomersLoading, setError as setCustomersError } from '../store/customersSlice';
+import {
+  setCustomers,
+  setLoading as setCustomersLoading,
+  setError as setCustomersError,
+} from '../store/customersSlice';
 import LoadingSpinner from '../components/LoadingSpinner';
 import '../App.css';
 
 function AccountDetails() {
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
-  const { accounts, loading, error } = useAppSelector((state) => state.accounts);
-  const { customers, loading: customersLoading, error: customersError } = useAppSelector((state) => state.customers);
+  const { accounts, loading, error } = useAppSelector(
+    (state) => state.accounts
+  );
+  const {
+    customers,
+    loading: customersLoading,
+    error: customersError,
+  } = useAppSelector((state) => state.customers);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -35,7 +45,8 @@ function AccountDetails() {
         const customersData = await customersResponse.json();
         dispatch(setCustomers(customersData));
       } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'An error occurred';
+        const errorMessage =
+          err instanceof Error ? err.message : 'An error occurred';
         dispatch(setError(errorMessage));
         dispatch(setCustomersError(errorMessage));
       }
@@ -44,11 +55,11 @@ function AccountDetails() {
     fetchData();
   }, [dispatch, accounts.length]);
 
-  const account = accounts.find(a => a.id === id);
+  const account = accounts.find((a) => a.id === id);
 
   // Filter customers for this account
   const accountCustomers = account
-    ? customers.filter(customer => account.customerIDs.includes(customer.id))
+    ? customers.filter((customer) => account.customerIDs.includes(customer.id))
     : [];
 
   if (loading || customersLoading) {
@@ -67,7 +78,11 @@ function AccountDetails() {
       <>
         <h1>Account Details</h1>
         <div className="card">
-          <div style={{ padding: '20px', textAlign: 'center', color: '#dc3545' }}>Error: {error || customersError}</div>
+          <div
+            style={{ padding: '20px', textAlign: 'center', color: '#dc3545' }}
+          >
+            Error: {error || customersError}
+          </div>
         </div>
       </>
     );
@@ -92,8 +107,13 @@ function AccountDetails() {
         <div style={{ marginBottom: '20px' }}>
           <h2 style={{ marginTop: 0, marginBottom: '20px' }}>{account.name}</h2>
 
-          <div style={{ display: 'grid', gridTemplateColumns: '150px 1fr', gap: '12px' }}>
-
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '150px 1fr',
+              gap: '12px',
+            }}
+          >
             <div style={{ fontWeight: 'bold' }}>Description:</div>
             <div>{account.description}</div>
 
@@ -113,16 +133,26 @@ function AccountDetails() {
             <thead>
               <tr style={{ borderBottom: '2px solid #646cff' }}>
                 <th style={{ textAlign: 'left', padding: '12px' }}>Name</th>
-                <th style={{ textAlign: 'left', padding: '12px' }}>Created Date</th>
-                <th style={{ textAlign: 'center', padding: '12px' }}>Invoices</th>
+                <th style={{ textAlign: 'left', padding: '12px' }}>
+                  Created Date
+                </th>
+                <th style={{ textAlign: 'center', padding: '12px' }}>
+                  Invoices
+                </th>
                 <th style={{ textAlign: 'center', padding: '12px' }}>Sales</th>
               </tr>
             </thead>
             <tbody>
               {accountCustomers.map((customer) => (
-                <tr key={customer.id} style={{ borderBottom: '1px solid #333' }}>
+                <tr
+                  key={customer.id}
+                  style={{ borderBottom: '1px solid #333' }}
+                >
                   <td style={{ padding: '12px' }}>
-                    <Link to={`/customer-details/${customer.id}`} style={{ color: '#646cff', textDecoration: 'none' }}>
+                    <Link
+                      to={`/customer-details/${customer.id}`}
+                      style={{ color: '#646cff', textDecoration: 'none' }}
+                    >
                       {customer.name}
                     </Link>
                   </td>

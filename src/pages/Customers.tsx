@@ -8,7 +8,9 @@ import '../App.css';
 
 function Customers() {
   const dispatch = useAppDispatch();
-  const { customers, loading, error } = useAppSelector((state) => state.customers);
+  const { customers, loading, error } = useAppSelector(
+    (state) => state.customers
+  );
   const { accounts } = useAppSelector((state) => state.accounts);
   const { id: userId } = useAppSelector((state) => state.auth);
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -35,7 +37,8 @@ function Customers() {
         const customersData = await customersResponse.json();
         dispatch(setCustomers(customersData));
       } catch (err) {
-        const errorMessage = err instanceof Error ? err.message : 'An error occurred';
+        const errorMessage =
+          err instanceof Error ? err.message : 'An error occurred';
         dispatch(setError(errorMessage));
       }
     };
@@ -44,11 +47,13 @@ function Customers() {
   }, [dispatch]);
 
   // Filter customers that belong to the logged-in user
-  const userAccounts = accounts.filter(account => account.ownedBy === userId);
+  const userAccounts = accounts.filter((account) => account.ownedBy === userId);
   const userCustomerIds = new Set(
-    userAccounts.flatMap(account => account.customerIDs)
+    userAccounts.flatMap((account) => account.customerIDs)
   );
-  const userCustomers = customers.filter(customer => userCustomerIds.has(customer.id));
+  const userCustomers = customers.filter((customer) =>
+    userCustomerIds.has(customer.id)
+  );
 
   const handleEdit = (customerId: string, currentName: string) => {
     setEditingId(customerId);
@@ -70,14 +75,15 @@ function Customers() {
       }
 
       // Update local state
-      const updatedCustomers = customers.map(customer =>
+      const updatedCustomers = customers.map((customer) =>
         customer.id === customerId ? { ...customer, name: editName } : customer
       );
       dispatch(setCustomers(updatedCustomers));
       setEditingId(null);
       setEditName('');
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to update customer';
+      const errorMessage =
+        err instanceof Error ? err.message : 'Failed to update customer';
       alert(errorMessage);
     }
   };
@@ -88,7 +94,9 @@ function Customers() {
   };
 
   const handleDelete = async (customerId: string, customerName: string) => {
-    if (!confirm(`Are you sure you want to delete customer "${customerName}"?`)) {
+    if (
+      !confirm(`Are you sure you want to delete customer "${customerName}"?`)
+    ) {
       return;
     }
 
@@ -102,10 +110,13 @@ function Customers() {
       }
 
       // Update local state
-      const updatedCustomers = customers.filter(customer => customer.id !== customerId);
+      const updatedCustomers = customers.filter(
+        (customer) => customer.id !== customerId
+      );
       dispatch(setCustomers(updatedCustomers));
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'Failed to delete customer';
+      const errorMessage =
+        err instanceof Error ? err.message : 'Failed to delete customer';
       alert(errorMessage);
     }
   };
@@ -118,7 +129,11 @@ function Customers() {
         {loading ? (
           <LoadingSpinner />
         ) : error ? (
-          <div style={{ padding: '20px', textAlign: 'center', color: '#dc3545' }}>Error: {error}</div>
+          <div
+            style={{ padding: '20px', textAlign: 'center', color: '#dc3545' }}
+          >
+            Error: {error}
+          </div>
         ) : userCustomers.length === 0 ? (
           <p>No customers found for your account.</p>
         ) : (
@@ -126,14 +141,23 @@ function Customers() {
             <thead>
               <tr style={{ borderBottom: '2px solid #646cff' }}>
                 <th style={{ textAlign: 'left', padding: '12px' }}>Name</th>
-                <th style={{ textAlign: 'left', padding: '12px' }}>Created Date</th>
-                <th style={{ textAlign: 'right', padding: '12px' }}>Total Spent</th>
-                <th style={{ textAlign: 'center', padding: '12px' }}>Actions</th>
+                <th style={{ textAlign: 'left', padding: '12px' }}>
+                  Created Date
+                </th>
+                <th style={{ textAlign: 'right', padding: '12px' }}>
+                  Total Spent
+                </th>
+                <th style={{ textAlign: 'center', padding: '12px' }}>
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody>
               {userCustomers.map((customer) => (
-                <tr key={customer.id} style={{ borderBottom: '1px solid #333' }}>
+                <tr
+                  key={customer.id}
+                  style={{ borderBottom: '1px solid #333' }}
+                >
                   <td style={{ padding: '12px' }}>
                     {editingId === customer.id ? (
                       <input
@@ -147,7 +171,7 @@ function Customers() {
                           borderRadius: '4px',
                           backgroundColor: '#1a1a1a',
                           color: 'white',
-                          width: '200px'
+                          width: '200px',
                         }}
                       />
                     ) : (
@@ -155,7 +179,7 @@ function Customers() {
                         to={`/customer-details/${customer.id}`}
                         style={{
                           color: '#646cff',
-                          textDecoration: 'none'
+                          textDecoration: 'none',
                         }}
                       >
                         {customer.name}
@@ -181,7 +205,7 @@ function Customers() {
                             border: 'none',
                             borderRadius: '4px',
                             cursor: 'pointer',
-                            marginRight: '8px'
+                            marginRight: '8px',
                           }}
                         >
                           Save
@@ -195,7 +219,7 @@ function Customers() {
                             color: 'white',
                             border: 'none',
                             borderRadius: '4px',
-                            cursor: 'pointer'
+                            cursor: 'pointer',
                           }}
                         >
                           Cancel
@@ -213,13 +237,15 @@ function Customers() {
                             border: 'none',
                             borderRadius: '4px',
                             cursor: 'pointer',
-                            marginRight: '8px'
+                            marginRight: '8px',
                           }}
                         >
                           Edit
                         </button>
                         <button
-                          onClick={() => handleDelete(customer.id, customer.name)}
+                          onClick={() =>
+                            handleDelete(customer.id, customer.name)
+                          }
                           style={{
                             padding: '6px 12px',
                             fontSize: '12px',
@@ -227,7 +253,7 @@ function Customers() {
                             color: 'white',
                             border: 'none',
                             borderRadius: '4px',
-                            cursor: 'pointer'
+                            cursor: 'pointer',
                           }}
                         >
                           Delete
