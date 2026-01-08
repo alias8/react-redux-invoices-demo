@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from 'express';
 import session from 'express-session';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import bcrypt from 'bcrypt';
 import { dbData } from './serverData.js';
 import type { IData } from './types.js';
 
@@ -57,7 +58,7 @@ app.use('/api', (_req: Request, _res: Response, next: NextFunction) => {
 });
 
 // API routes
-app.post('/api/login', (req: Request, res: Response) => {
+app.post('/api/login', async (req: Request, res: Response) => {
   const { username, password } = req.body;
 
   if (!username || !password) {
@@ -66,11 +67,17 @@ app.post('/api/login', (req: Request, res: Response) => {
   }
 
   const users = req.session.data!.users || [];
-  const user = users.find(
-    (u) => u.username === username && u.password === password
-  );
+  const user = users.find((u) => u.username === username);
 
-  if (user) {
+  if (!user) {
+    res.status(401).json({ error: 'Invalid username or password' });
+    return;
+  }
+
+  // Verify password using bcrypt
+  const isPasswordValid = await bcrypt.compare(password, user.password);
+
+  if (isPasswordValid) {
     res.json({ id: user.id, username: user.username });
   } else {
     res.status(401).json({ error: 'Invalid username or password' });

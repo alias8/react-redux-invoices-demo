@@ -3,23 +3,29 @@ import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
 import { v4 as uuid } from 'uuid';
 import _ from 'lodash';
+import bcrypt from 'bcrypt';
 import type { IData, IAccount, ICustomer, IInvoice, IUser } from './types.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const generateMockData = () => {
+const generateMockData = async () => {
   const numberOfAccounts = 5;
   const numberOfCustomers = numberOfAccounts * 5;
   const numberOfInvoices = numberOfCustomers * 10;
 
-  const users: IUser[] = _.range(0, 2).map((_user, index: number) => {
-    return {
-      id: uuid(),
-      username: `user${index}`,
-      password: `user${index}`,
-    };
-  });
+  // Generate users with hashed passwords
+  const users: IUser[] = await Promise.all(
+    _.range(0, 2).map(async (_user, index: number) => {
+      const plainPassword = `user${index}`;
+      const hashedPassword = await bcrypt.hash(plainPassword, 10);
+      return {
+        id: uuid(),
+        username: `user${index}`,
+        password: hashedPassword,
+      };
+    })
+  );
 
   const invoices: IInvoice[] = _.range(0, numberOfInvoices).map(
     (_invoice, index: number) => {
@@ -80,14 +86,17 @@ const generateMockData = () => {
   return data;
 };
 
-const dbData = generateMockData();
+// Main execution
+(async () => {
+  const dbData = await generateMockData();
 
-// Write the data to db.json
-const outputPath = join(__dirname, 'db.json');
-writeFileSync(outputPath, JSON.stringify(dbData, null, 2), 'utf-8');
+  // Write the data to db.json
+  const outputPath = join(__dirname, 'db.json');
+  writeFileSync(outputPath, JSON.stringify(dbData, null, 2), 'utf-8');
 
-console.log('✓ Generated db.json with:');
-console.log(`  - ${dbData.users.length} users`);
-console.log(`  - ${dbData.accounts.length} accounts`);
-console.log(`  - ${dbData.customers.length} customers`);
-console.log(`  - ${dbData.invoices.length} invoices`);
+  console.log('✓ Generated db.json with:');
+  console.log(`  - ${dbData.users.length} users`);
+  console.log(`  - ${dbData.accounts.length} accounts`);
+  console.log(`  - ${dbData.customers.length} customers`);
+  console.log(`  - ${dbData.invoices.length} invoices`);
+})();
