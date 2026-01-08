@@ -149,13 +149,13 @@ function CustomerDetails() {
                 <th style={{ textAlign: 'left', padding: '12px' }}>
                   Purchased Date
                 </th>
-                <th style={{ textAlign: 'right', padding: '12px' }}>Price</th>
+                <th style={{ textAlign: 'left', padding: '12px' }}>Price</th>
               </tr>
             </thead>
             <tbody>
               {customerInvoices.map((invoice) => (
                 <tr key={invoice.id} style={{ borderBottom: '1px solid #333' }}>
-                  <td style={{ padding: '12px' }}>
+                  <td style={{ padding: '12px', textAlign: 'left' }}>
                     <Link
                       to={`/invoice-details/${invoice.id}`}
                       style={{ color: '#646cff', textDecoration: 'none' }}
@@ -163,10 +163,10 @@ function CustomerDetails() {
                       {invoice.description}
                     </Link>
                   </td>
-                  <td style={{ padding: '12px' }}>
+                  <td style={{ padding: '12px', textAlign: 'left' }}>
                     {new Date(invoice.purchasedDate).toLocaleDateString()}
                   </td>
-                  <td style={{ padding: '12px', textAlign: 'right' }}>
+                  <td style={{ padding: '12px', textAlign: 'left' }}>
                     ${invoice.purchasedPrice.toFixed(2)}
                   </td>
                 </tr>

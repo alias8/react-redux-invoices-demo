@@ -65,7 +65,6 @@ function InvoiceDetails() {
 
   return (
     <>
-      <Navigation />
       <h1>Invoice Details</h1>
 
       <div className="card">

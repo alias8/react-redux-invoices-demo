@@ -132,21 +132,19 @@ function Accounts() {
                 <th style={{ textAlign: 'left', padding: '12px' }}>
                   Description
                 </th>
-                <th style={{ textAlign: 'center', padding: '12px' }}>
+                <th style={{ textAlign: 'left', padding: '12px' }}>
                   Customers
                 </th>
-                <th style={{ textAlign: 'center', padding: '12px' }}>
+                <th style={{ textAlign: 'left', padding: '12px' }}>
                   Total Sales
                 </th>
-                <th style={{ textAlign: 'center', padding: '12px' }}>
-                  Actions
-                </th>
+                <th style={{ textAlign: 'left', padding: '12px' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
               {userAccounts.map((account) => (
                 <tr key={account.id} style={{ borderBottom: '1px solid #333' }}>
-                  <td style={{ padding: '12px' }}>
+                  <td style={{ padding: '12px', textAlign: 'left' }}>
                     {editingId === account.id ? (
                       <input
                         type="text"
@@ -171,7 +169,7 @@ function Accounts() {
                       </Link>
                     )}
                   </td>
-                  <td style={{ padding: '12px' }}>
+                  <td style={{ padding: '12px', textAlign: 'left' }}>
                     {editingId === account.id ? (
                       <input
                         type="text"
@@ -191,15 +189,15 @@ function Accounts() {
                       account.description
                     )}
                   </td>
-                  <td style={{ padding: '12px', textAlign: 'center' }}>
+                  <td style={{ padding: '12px', textAlign: 'left' }}>
                     {account.customerIDs.length}
                   </td>
-                  <td style={{ padding: '12px', textAlign: 'center' }}>
+                  <td style={{ padding: '12px', textAlign: 'left' }}>
                     {account.revenue
                       ? `$${account.revenue.toFixed(2)}`
                       : '$0.00'}
                   </td>
-                  <td style={{ padding: '12px', textAlign: 'center' }}>
+                  <td style={{ padding: '12px', textAlign: 'left' }}>
                     {editingId === account.id ? (
                       <>
                         <button

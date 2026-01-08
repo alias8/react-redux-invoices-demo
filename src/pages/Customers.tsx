@@ -144,12 +144,10 @@ function Customers() {
                 <th style={{ textAlign: 'left', padding: '12px' }}>
                   Created Date
                 </th>
-                <th style={{ textAlign: 'right', padding: '12px' }}>
+                <th style={{ textAlign: 'left', padding: '12px' }}>
                   Total Spent
                 </th>
-                <th style={{ textAlign: 'center', padding: '12px' }}>
-                  Actions
-                </th>
+                <th style={{ textAlign: 'left', padding: '12px' }}>Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -158,7 +156,7 @@ function Customers() {
                   key={customer.id}
                   style={{ borderBottom: '1px solid #333' }}
                 >
-                  <td style={{ padding: '12px' }}>
+                  <td style={{ padding: '12px', textAlign: 'left' }}>
                     {editingId === customer.id ? (
                       <input
                         type="text"
@@ -186,13 +184,13 @@ function Customers() {
                       </Link>
                     )}
                   </td>
-                  <td style={{ padding: '12px' }}>
+                  <td style={{ padding: '12px', textAlign: 'left' }}>
                     {new Date(customer.createdDate).toLocaleDateString()}
                   </td>
-                  <td style={{ padding: '12px', textAlign: 'right' }}>
+                  <td style={{ padding: '12px', textAlign: 'left' }}>
                     ${(customer.sales || 0).toFixed(2)}
                   </td>
-                  <td style={{ padding: '12px', textAlign: 'center' }}>
+                  <td style={{ padding: '12px', textAlign: 'left' }}>
                     {editingId === customer.id ? (
                       <>
                         <button
