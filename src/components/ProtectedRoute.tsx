@@ -1,6 +1,6 @@
 import { Navigate } from 'react-router-dom';
 import { useAppSelector } from '../store/hooks';
-import Navigation, { ViewHeight } from './Navigation';
+import Navigation, { ViewContainer } from './Navigation';
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -14,10 +14,10 @@ function ProtectedRoute({ children }: ProtectedRouteProps) {
   }
 
   return (
-    <ViewHeight>
+    <ViewContainer>
       <Navigation />
       {children}
-    </ViewHeight>
+    </ViewContainer>
   );
 }
 

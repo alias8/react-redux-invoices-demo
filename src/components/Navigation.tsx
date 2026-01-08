@@ -75,11 +75,12 @@ function Navigation() {
   );
 }
 
-export const ViewHeight = ({ children }: {
+export const ViewContainer = ({ children }: {
     children: React.ReactNode;
 }) => {
     return (<div           style={{
         height: '100vh',
+        width: '55vw',
     }}>{ children }</div>)
 }
 
